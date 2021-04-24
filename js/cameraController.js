@@ -6,7 +6,7 @@ class CameraController {
 		this.followTargetY = false;
 
 		this.pos = createVector();
-		// this.focusOffset = createVector();
+		this.focusOffset = createVector();
 		this.zoom = 1;
 	}
 
@@ -14,14 +14,14 @@ class CameraController {
 		this.pos.set(x, y);
 	}
 
-	// /**
-	//  * Sets offset of viewing center to targeted object
-	//  * @param relX
-	//  * @param relY
-	//  */
-	// setOffset(relX, relY) {
-	// 	this.focusOffset.set(relX, relY)
-	// }
+	/**
+	 * Sets offset of viewing center to targeted object
+	 * @param relX
+	 * @param relY
+	 */
+	setOffset(relX, relY) {
+		this.focusOffset.set(relX, relY)
+	}
 
 	shake(amplitude, duration) {
 		this.isShaking = true;
@@ -36,12 +36,14 @@ class CameraController {
 				this.pos.x = this.target.pos.x;
 			}
 			if (this.followTargetY) {
+				// console.log("cam " + this.target.pos.y);
 				this.pos.y = this.target.pos.y;
 			}
 		}
 
-		translate(width / 2, height / 2);
-		// translate(width / 2 - this.focusOffset.x * width, height / 2 - this.focusOffset.y * height);
+		// translate(width / 2, height / 2);
+		translate(width / 2 - this.focusOffset.x * width, height / 2 - this.focusOffset.y * height);
+
 		scale(this.zoom);
 		translate(-this.pos.x, -this.pos.y);
 

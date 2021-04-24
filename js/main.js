@@ -53,7 +53,7 @@ function setup() {
 	let isWide = width >= (height * 16/9);
 
 	camera.zoom = isWide ? height / 1080 : width / 1920;
-	camera.zoom *= 2;
+	camera.zoom *= 3;
 
 	levels = [];
 	levels.push(new Entrance());
@@ -129,7 +129,7 @@ function movePlayer() {
 function keyReleased() {
 	switch (keyCode) {
 		case 82: //r
-			level1.rewind(player);
+			levels[currentLevel].rewind(player);
 			break;
 	}
 	if (keyCode === 87) { //w

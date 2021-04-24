@@ -3,11 +3,21 @@ class Lift extends Drawable {
 
 	constructor(scale, texture) {
 		super(scale, texture);
-		console.log("yes ay ay")
+		this.speed = 1;
 	}
 
 	display() {
-		this.translate(0, 5);
+		// console.log(this.pos.y);
+		this.translate(0, this.speed);
+
+		// if (player.isOnGround) {
+			player.translate(0, this.speed);
+		// }
+
+		// if (player.wasOnGround) {
+		//
+		// }
+
 		super.display();
 	}
 
