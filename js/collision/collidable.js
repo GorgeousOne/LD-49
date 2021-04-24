@@ -16,8 +16,9 @@ class Collidable {
 	}
 
 	setPos(x, y) {
-		this.pos.set(x, y);
-		this.hitbox.setPos(x, y);
+		this.translate(createVector(x, y).sub(this.pos));
+		// this.pos.set(x, y);
+		// this.hitbox.setPos(x, y);
 		return this;
 	}
 

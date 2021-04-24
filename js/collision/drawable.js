@@ -8,7 +8,8 @@ class Drawable extends Collidable {
 	}
 
 	display() {
-		image(this.texture, this.pos.x, this.pos.y, this.w(), this.h());
+		image(this.texture, this.pos.x, this.pos.y,
+			this.texture.width * this.scale, this.texture.height * this.scale);
 	}
 
 	getCopy() {

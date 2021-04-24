@@ -10,6 +10,10 @@ class CameraController {
 		this.zoom = 1;
 	}
 
+	minX() {
+		return
+	}
+
 	setPos(x, y) {
 		this.pos.set(x, y);
 	}

@@ -7,16 +7,13 @@ class Lift extends Drawable {
 	}
 
 	display() {
-		// console.log(this.pos.y);
 		this.translate(0, this.speed);
 
-		// if (player.isOnGround) {
-			player.translate(0, this.speed);
-		// }
-
-		// if (player.wasOnGround) {
-		//
-		// }
+		for (let collidable of physicsHandler.collidables) {
+			if (this === collidable.lastGround) {
+				collidable.translate(0, this.speed);
+			}
+		}
 
 		super.display();
 	}

@@ -15,26 +15,27 @@ let eventHandler;
 let camera;
 let player;
 
-let showDebug = true;
+let showDebug = false;
 
 let levels;
 let currentLevel;
 
-let bam;
 let drawables;
 
 //load files
 function preload() {
 	textureHandler = new TextureHandler();
-	textureHandler.loadAni("genga", "textures/gengar-walk", "gengar-walk");
+	textureHandler.loadAni("gengar", "textures/gengar-walk", "gengar-walk");
 	textureHandler.loadImage("wall", "textures/leftwall.png");
 	textureHandler.loadImage("platform", "textures/platform.png");
+	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
+	textureHandler.loadImage("spider-walk", "textures/spider.png");
+
 	// bam = loadSound("sounds/BAMM.wav")
 }
 
 function setup() {
 	createCanvas(windowWidth, windowHeight, P2D);
-	fullscreen();
 	noSmooth();
 
 	drawables = [];
@@ -43,7 +44,7 @@ function setup() {
 	physicsHandler = new PhysicsHandler();
 	eventHandler = new EventHandler();
 
-	player = new Player(textureHandler.getAni("genga"));
+	player = new Player(textureHandler.getAni("gengar"));
 	player.setPos(400, 200);
 	physicsHandler.addCollidable(player);
 
@@ -52,8 +53,8 @@ function setup() {
 
 	let isWide = width >= (height * 16/9);
 
-	camera.zoom = isWide ? height / 1080 : width / 1920;
-	camera.zoom *= 3;
+	// camera.zoom = isWide ? height / 1080 : width / 1920;
+	camera.zoom = 3;
 
 	levels = [];
 	levels.push(new Entrance());
@@ -61,6 +62,10 @@ function setup() {
 
 	currentLevel = 1;
 	levels[currentLevel].start();
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
 }
 
 function addDrawable(drawable) {
@@ -126,6 +131,21 @@ function movePlayer() {
 		player.jump(110);
 	}
 }
+
+function keyTyped() {
+	if (keyIsDown(32)) { //space
+		console.log("-- SPAWN ---")
+		let spider = new Spider();
+		drawables.push(spider);
+		spider.spawn(player.pos.x, player.pos.y - 300);
+	}
+}
+
+function mousePressed(){
+	let isFull = fullscreen();
+	fullscreen(!isFull);
+}
+
 function keyReleased() {
 	switch (keyCode) {
 		case 82: //r
