@@ -3,15 +3,18 @@ class TextureHandler {
 
 	constructor() {
 		this.images = new Map();
-		this.sprites = new Map();
+		this.animations = new Map();
 	}
 
 	getImage(nameKey) {
+		if (!this.images.has(nameKey)) {
+			console.error("no key " + nameKey);
+		}
 		return this.images.get(nameKey);
 	}
 
 	getAni(nameKey) {
-		return this.sprites.get(nameKey);
+		return this.animations.get(nameKey);
 	}
 
 	loadImage(nameKey, path) {
@@ -24,7 +27,7 @@ class TextureHandler {
 
 		loadImage(aniPath, spriteSheet => {
 			loadStrings(texPath, texFile => {
-				this.sprites.set(nameKey, this._createAni(spriteSheet, texFile));
+				this.animations.set(nameKey, this._createAni(spriteSheet, texFile));
 			});
 		});
 	}

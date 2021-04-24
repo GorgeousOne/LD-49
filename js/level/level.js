@@ -9,7 +9,6 @@ class Level {
 		this.checkpointState = this.collidables;
 		this.checkpointSpawn = playerSpawn;
 	}
-
 	addCollidable(collidable) {
 		this.collidables.push(collidable);
 	}
@@ -20,6 +19,11 @@ class Level {
 
 		this.checkpointState.forEach(element => {
 			let copy = element.getCopy();
+
+			if (copy instanceof Drawable) {
+				addDrawable(copy);
+			}
+
 			physicsHandler.addCollidable(copy);
 			this.gameState.push(copy);
 		})
@@ -27,21 +31,24 @@ class Level {
 
 	setCheckPoint() {
 		this.checkpointSpawn = player.pos.copy();
+		this.checkpointState = [];
 
-		this.collidables = [];
 		this.collidables.forEach(element => {
 			this.checkpointState.push(element.getCopy());
 		})
 	}
 
 	rewind() {
-		console.log(this.constructor.name);
 		this.end();
 		this.start(this.checkpointSpawn, this.checkpointState);
 	}
 
 	end() {
-		this.gameState.forEach(element => physicsHandler.removeCollidable(element))
+		this.checkpointSpawn = this.playerSpawn;
+		this.gameState.forEach(element => {
+			physicsHandler.removeCollidable(element);
+			removeDrawable(element);
+		});
 		this.gameState = []
 	}
 }

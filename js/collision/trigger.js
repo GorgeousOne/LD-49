@@ -1,8 +1,8 @@
 
 class Trigger extends Collidable{
 
-	constructor(width, height, callback) {
-		super(width, height, false);
+	constructor(width, height, callback, isSolid = true, hasGravity) {
+		super(width, height, isSolid, hasGravity);
 		this.callback = callback;
 	}
 
@@ -11,7 +11,7 @@ class Trigger extends Collidable{
 	}
 
 	getCopy() {
-		let copy = new Trigger(this.hitbox.size.x, this.hitbox.size.y, this.callback);
+		let copy = new Trigger(this.w(), this.h(), this.callback, this.isSolid, this.hasGravity);
 		copy.setPos(this.pos.x, this.pos.y);
 		copy.velocity.set(this.velocity);
 		return copy;

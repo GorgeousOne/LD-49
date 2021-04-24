@@ -7,7 +7,7 @@ class CameraController {
 
 		this.pos = createVector();
 		// this.focusOffset = createVector();
-		this.zoom = 2;
+		this.zoom = 1;
 	}
 
 	setPos(x, y) {

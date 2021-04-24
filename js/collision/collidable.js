@@ -26,6 +26,14 @@ class Collidable {
 		this.hitbox.translate(dx, dy);
 	}
 
+	w() {
+		return this.hitbox.size.x;
+	}
+
+	h() {
+		return this.hitbox.size.y;
+	}
+
 	/**
 	 * Applies own x velocity to itself and looks for intersections with others
 	 */
@@ -108,7 +116,7 @@ class Collidable {
 	}
 
 	getCopy() {
-		let copy = new Collidable(this.hitbox.size.x, this.hitbox.size.y, this.isSolid, this.hasGravity);
+		let copy = new Collidable(this.w(), this.h(), this.isSolid, this.hasGravity);
 		copy.setPos(this.pos.x, this.pos.y);
 		copy.velocity.set(this.velocity);
 		return copy;

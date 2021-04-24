@@ -15,16 +15,13 @@ class EventHandler {
 
 	callCollisionEvent(collidable1, collidable2) {
 		collidable2.hitbox.outline = color(0, 0, 255);
-		console.log(collidable2 instanceof Trigger);
 
-		if (collidable1 instanceof Trigger) {
-			console.log("oh yeah");
-			collidable2.activate();
-		}
 		if (collidable2 instanceof Trigger) {
-			console.log("oh yes");
 			collidable2.activate();
 		}
+		// if (collidable1 instanceof Trigger) {
+		// 	collidable2.activate();
+		// }
 
 		for (let listener of this.collisionListeners) {
 			listener.onCollide(collidable1, collidable2);
