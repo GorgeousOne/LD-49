@@ -45,7 +45,7 @@ class PhysicsHandler {
 		return objects;
 	}
 
-	callCollisionEvent(collidable1, collidable2) {
-		collidable2.hitbox.outline = color(0, 0, 255);
-	}
+	// callCollisionEvent(collidable1, collidable2) {
+	// 	collidable2.hitbox.outline = color(0, 0, 255);
+	// }
 }

@@ -52,14 +52,14 @@ class Collidable {
 				let intersection = other.hitbox.getBoundX(-facing) - this.hitbox.getBoundX(facing);
 				this.translate(intersection, 0);
 				this.velocity.x = 0;
-				physicsHandler.callCollisionEvent(this, other);
+				eventHandler.callCollisionEvent(this, other);
 
 			}else {
 				if (this.intersectings.includes(other)) {
 					continue;
 				}
 				this.intersectings.push(other);
-				physicsHandler.callCollisionEvent(this, other);
+				eventHandler.callCollisionEvent(this, other);
 			}
 		}
 	}
@@ -89,7 +89,7 @@ class Collidable {
 				this.velocity.y = 0;
 
 				if (!this.isOnGround && other !== this.lastGround) {
-					physicsHandler.callCollisionEvent(this, other);
+					eventHandler.callCollisionEvent(this, other);
 				}
 
 				if (facing === 1) {
@@ -102,7 +102,7 @@ class Collidable {
 					continue;
 				}
 				this.intersectings.push(other);
-				physicsHandler.callCollisionEvent(this, other);
+				eventHandler.callCollisionEvent(this, other);
 			}
 		}
 	}

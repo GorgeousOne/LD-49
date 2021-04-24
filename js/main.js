@@ -10,18 +10,20 @@ Array.prototype.removeIf = function(callback) {
 
 let textureHandler;
 let physicsHandler;
-let showDebug = true;
+let eventHandler;
+
 
 let camera;
 let player;
 
 let bam;
+let showDebug = true;
 
 //load files
 function preload() {
 	textureHandler = new TextureHandler();
-	//textureHandler.loadImage("back", "textures/library.png");
 	textureHandler.loadAni("genga", "textures/gengar-walk", "gengar-walk");
+	//textureHandler.loadImage("back", "textures/library.png");
 
 	bam = loadSound("sounds/BAMM.wav")
 }
@@ -33,7 +35,9 @@ function setup() {
 	fullscreen();
 	noSmooth();
 
+	// eventHandler.addCollisionListener(this);
 	physicsHandler = new PhysicsHandler();
+	eventHandler = new EventHandler();
 
 	player = new Player(textureHandler.getAni("genga"));
 	player.setPos(400, 200);
@@ -65,11 +69,21 @@ function render() {
 			thing.hitbox.display();
 		}
 	}
+
+	let cursorX = (mouseX - width/2) / camera.zoom + camera.pos.x;
+	let cursorY = (mouseY - height/2) / camera.zoom + camera.pos.y;
+
+	fill(255);
+	text(round(cursorX) + "," + round(cursorY), cursorX, cursorY + 20);
 }
 
 
 const acceleration = 0.2;
 const maxSpeed = 5;
+
+function onDeath() {
+	level1.rewind();
+}
 
 function movePlayer() {
 	if (keyIsDown(65)) { //a
@@ -85,8 +99,7 @@ function movePlayer() {
 function keyReleased() {
 	switch (keyCode) {
 		case 82: //r
-			level1.reset();
-			level1.start(player);
+			level1.rewind(player);
 			break;
 	}
 	if (keyCode === 87) { //w
