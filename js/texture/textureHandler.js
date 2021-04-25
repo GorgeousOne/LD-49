@@ -27,7 +27,7 @@ class TextureHandler {
 
 		loadImage(aniPath, spriteSheet => {
 			loadStrings(texPath, texFile => {
-				this.animations.set(nameKey, this._createAni(spriteSheet, texFile));
+				this.animations.set(nameKey, this._createAni2(spriteSheet, texFile));
 			});
 		});
 	}
@@ -49,6 +49,24 @@ class TextureHandler {
 				imgCoords[2],
 				imgCoords[3]
 			));
+		}
+		return new Ani(frames, frameInterval);
+	}
+
+	_createAni2(spriteSheet, texFile) {
+		if (texFile.length < 2) {
+			console.error('Invalid animation txt file!');
+			return null;
+		}
+		let frameInterval = parseInt(texFile[0]);
+		let dimensions = texFile[1].split(' ');
+
+		let imgWidth = parseInt(dimensions[0]);
+		let imgHeight = parseInt(dimensions[1]);
+		let frames = [];
+
+		for (let x = 0; x < spriteSheet.width; x += imgWidth) {
+			frames.push(spriteSheet.get(x, 0, imgWidth, imgHeight));
 		}
 		return new Ani(frames, frameInterval);
 	}

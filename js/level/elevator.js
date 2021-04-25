@@ -17,13 +17,14 @@ class Elevator extends Level {
 		this.walls = [];
 		this.wallImg = textureHandler.get("wall");
 
-		let wallWidth = this.wallImg.width * 0.25;
-		this.wallHeight = this.wallImg.height * 0.25;
+		let wallWidth = this.wallImg.width;
+		this.wallHeight = this.wallImg.height;
 		this.wallCount = Math.ceil((camera.maxY() - camera.minY()) / this.wallHeight) + 2; //+2 for assurance
 
 		for (let i = 0; i < this.wallCount; ++i) {
-			let leftWall = new Drawable(0.25, this.wallImg).setPos(-240, i * this.wallHeight);
-			let rightWall = new Drawable(0.25, this.wallImg).setPos(240 - wallWidth, i * this.wallHeight);
+			let leftWall = new Drawable(1, this.wallImg).setPos(-240, -width/2 + i * this.wallHeight);
+			let rightWall = new Drawable(1, this.wallImg).setPos(240 - wallWidth, -width/2 + i * this.wallHeight);
+			rightWall.isMirrored = true;
 
 			this.addCollidable(leftWall);
 			this.addCollidable(rightWall);
@@ -40,7 +41,7 @@ class Elevator extends Level {
 		this.backCount = Math.ceil((camera.maxY() - camera.minY()) / this.backHeight) + 2;
 
 		for (let i = 0; i < this.backCount; ++i) {
-			let back = new Drawable(1, this.backImg, true, false).setPos(-backWidth/2,i * this.backHeight);
+			let back = new Drawable(1, this.backImg, true, false).setPos(-backWidth/2,-width/2 + i * this.backHeight);
 			this.addCollidable(back);
 			// if (i % 2 === 0) {
 			// 	back.isMirrored = true;
@@ -64,6 +65,7 @@ class Elevator extends Level {
 				this.walls.push(collidable);
 			}else if (collidable.texture === this.backImg) {
 				this.backs.push(collidable);
+				physicsHandler.removeCollidable(collidable);
 			}
 		}
 

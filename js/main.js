@@ -1,5 +1,4 @@
-
-Array.prototype.removeIf = function(callback) {
+Array.prototype.removeIf = function (callback) {
 	let i = this.length;
 	while (i--) {
 		if (callback(this[i], i)) {
@@ -25,8 +24,9 @@ let drawables;
 //load files
 function preload() {
 	textureHandler = new TextureHandler();
-	textureHandler.loadAni("gengar", "textures/gengar-walk", "gengar-walk");
-	textureHandler.loadImage("wall", "textures/leftwall.png");
+	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
+	// textureHandler.loadImage("", "textures/character.png");
+	textureHandler.loadImage("wall", "textures/wall.png");
 	textureHandler.loadImage("backwall", "textures/backwall.png");
 
 	textureHandler.loadImage("platform", "textures/platform.png");
@@ -45,14 +45,14 @@ function setup() {
 
 	camera = new CameraController(player);
 	camera.setPos(0, 300);
-	let isWide = width >= (height * 16/9);
+	let isWide = width >= (height * 16 / 9);
 	// camera.zoom = isWide ? height / 1080 : width / 1920;
 	camera.zoom = 3;
 
 	physicsHandler = new PhysicsHandler();
 	eventHandler = new EventHandler();
 
-	player = new Player(textureHandler.getAni("gengar"));
+	player = new Player(textureHandler.getAni("kid"));
 	player.setPos(400, 200);
 	physicsHandler.addCollidable(player);
 
@@ -133,15 +133,19 @@ function movePlayer() {
 }
 
 function keyTyped() {
-	if (keyIsDown(32)) { //space
-		console.log("-- SPAWN ---")
-		let spider = new Spider();
-		drawables.push(spider);
-		spider.spawn(player.pos.x, player.pos.y - 300);
+	switch (keyCode) {
+		case 32:
+			let spider = new Spider();
+			drawables.push(spider);
+			spider.spawn(player.pos.x, -300);
+			break;
+		case 81:
+			showDebug = !showDebug;
+			break;
 	}
 }
 
-function mousePressed(){
+function mousePressed() {
 	let isFull = fullscreen();
 	fullscreen(!isFull);
 }
