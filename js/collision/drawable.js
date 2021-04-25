@@ -1,4 +1,3 @@
-
 class Drawable extends Collidable {
 
 	constructor(scale, texture, isPassable = false, canCollide = true, hasGravity = false) {
@@ -13,12 +12,12 @@ class Drawable extends Collidable {
 		let imgHeight = this.texture.height * this.scale;
 
 		push();
-		translate(this.pos.x + imgWidth/2, this.pos.y + imgHeight/2);
+		translate(this.pos.x + imgWidth / 2, this.pos.y + imgHeight / 2);
 
 		if (this.isMirrored) {
 			scale(-1, 1);
 		}
-		image(this.texture, -imgWidth/2, -imgHeight/2, imgWidth, imgHeight);
+		image(this.texture, -imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
 		pop();
 	}
 

@@ -13,6 +13,7 @@ let eventHandler;
 
 let camera;
 let player;
+let lifebar;
 
 let showDebug = false;
 
@@ -20,12 +21,13 @@ let levels;
 let currentLevel;
 
 let drawables;
+let monsters;
 
 //load files
 function preload() {
 	textureHandler = new TextureHandler();
 	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
-	// textureHandler.loadImage("", "textures/character.png");
+	textureHandler.loadImage("heart", "textures/heart.png");
 	textureHandler.loadImage("wall", "textures/wall.png");
 	textureHandler.loadImage("backwall", "textures/backwall.png");
 
@@ -42,6 +44,7 @@ function setup() {
 	noSmooth();
 
 	drawables = [];
+	monsters = [];
 
 	camera = new CameraController(player);
 	camera.setPos(0, 300);
@@ -55,6 +58,9 @@ function setup() {
 	player = new Player(textureHandler.getAni("kid"));
 	player.setPos(400, 200);
 	physicsHandler.addCollidable(player);
+
+	lifebar = new Lifebar(3);
+	addDrawable(lifebar);
 
 	levels = [];
 	levels.push(new Entrance());
@@ -76,6 +82,21 @@ function removeDrawable(drawable) {
 	if (drawables.includes(drawable)) {
 		let i = drawables.indexOf(drawable);
 		drawables.splice(i, 1);
+	}
+}
+
+function addMonster(monster) {
+	addDrawable(monster);
+	monsters.push(monster);
+}
+
+function removeMonster(monster) {
+	removeDrawable(monster);
+	physicsHandler.removeCollidable(monster);
+
+	if (monsters.includes(monster)) {
+		let i = monsters.indexOf(monster);
+		monsters.splice(i, 1);
 	}
 }
 
@@ -104,7 +125,7 @@ function render() {
 	}
 
 	fill(255);
-	text(round(camera.minX()) + "," + round(camera.minY()), camera.minX(), camera.minY() + 10);
+	// text(round(camera.minX()) + "," + round(camera.minY()), camera.minX(), camera.minY() + 10);
 }
 
 function onDeath() {
@@ -136,11 +157,19 @@ function keyTyped() {
 	switch (keyCode) {
 		case 32:
 			let spider = new Spider();
-			drawables.push(spider);
+			addMonster(spider)
 			spider.spawn(player.pos.x, -300);
 			break;
-		case 81:
+		case 81: //q
 			showDebug = !showDebug;
+			break;
+		case 82: //r
+			levels[currentLevel].rewind(player);
+			for (let monster of monsters) {
+				removeDrawable(monster);
+				physicsHandler.removeCollidable(monster);
+			}
+			monsters = [];
 			break;
 	}
 }
@@ -151,11 +180,6 @@ function mousePressed() {
 }
 
 function keyReleased() {
-	switch (keyCode) {
-		case 82: //r
-			levels[currentLevel].rewind(player);
-			break;
-	}
 	if (keyCode === 87) { //w
 		player.hasJumpedOnce = false;
 	}

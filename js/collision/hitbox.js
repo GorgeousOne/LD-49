@@ -65,17 +65,19 @@ class Hitbox {
 	 * returns the minimum x coordinate for -1 and maximum x for 1
 	 */
 	getBoundX(dir) {
-		if (dir === -1)
+		if (dir === -1) {
 			return this.minX();
-		else if (dir === 1)
+		} else if (dir === 1) {
 			return this.maxX();
+		}
 	}
 
 	getBoundY(dir) {
-		if (dir === -1)
+		if (dir === -1) {
 			return this.minY();
-		else if (dir === 1)
+		} else if (dir === 1) {
 			return this.maxY();
+		}
 	}
 
 	display() {

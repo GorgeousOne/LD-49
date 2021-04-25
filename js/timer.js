@@ -1,4 +1,3 @@
-
 class Timer {
 
 	constructor(duration) {
@@ -13,7 +12,7 @@ class Timer {
 	}
 
 	isOver() {
-		if ( Date.now() - this.startTime > this.duration) {
+		if (this.startTime != null && Date.now() - this.startTime > this.duration) {
 			this.hasStarted = false;
 			return true;
 		}

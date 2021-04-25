@@ -51,7 +51,7 @@ class Collidable {
 
 	_moveX(dx) {
 		this.translate(dx, 0);
-		let facing =  Math.sign(dx);
+		let facing = Math.sign(dx);
 
 		let collisions = physicsHandler.getCollisions(this);
 		this.intersectings.removeIf(function (val) {!collisions.includes(val)});
@@ -64,7 +64,7 @@ class Collidable {
 				this.velocity.x = 0;
 				eventHandler.callCollisionEvent(this, other);
 
-			}else {
+			} else {
 				if (this.intersectings.includes(other)) {
 					continue;
 				}
@@ -108,7 +108,7 @@ class Collidable {
 					this.lastGround = other;
 				}
 
-			}else {
+			} else {
 				if (this.intersectings.includes(other)) {
 					continue;
 				}

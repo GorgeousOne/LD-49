@@ -1,8 +1,7 @@
-
 class Player extends Collidable {
 
 	constructor(walkingAni) {
-		super(15, 47, true, true, true);
+		super(12, 47, true, true, true);
 		this.isMirrored = false;
 		this.hasJumpedOnce = false;
 		this.walkingAni = walkingAni;
@@ -42,7 +41,7 @@ class Player extends Collidable {
 
 		super.updateY();
 
-		if(wasInAir && this.isOnGround && lastVelY / gravity >= 40) {
+		if (wasInAir && this.isOnGround && lastVelY / gravity >= 40) {
 			camera.shake(5, 250);
 		}
 	}
@@ -51,8 +50,9 @@ class Player extends Collidable {
 	 * jumps by approximating the velocity needed to reach given height
 	 */
 	jump(height) {
-		if (!this.isOnGround || this.hasJumpedOnce)
+		if (!this.isOnGround || this.hasJumpedOnce) {
 			return;
+		}
 
 		let newVelY = 0;
 

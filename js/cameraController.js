@@ -11,19 +11,19 @@ class CameraController {
 	}
 
 	minX() {
-		return (-width/2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
+		return (-width / 2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
 	}
 
 	maxX() {
-		return (-width/2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
+		return (-width / 2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
 	}
 
 	minY() {
-		return (-height/2 + this.focusOffset.y * height) / this.zoom + this.pos.y;
+		return (-height / 2 + this.focusOffset.y * height) / this.zoom + this.pos.y;
 	}
 
 	maxY() {
-		return (height/2 + this.focusOffset.y * height) / this.zoom + this.pos.y;
+		return (height / 2 + this.focusOffset.y * height) / this.zoom + this.pos.y;
 	}
 
 	setPos(x, y) {
@@ -62,14 +62,15 @@ class CameraController {
 		scale(this.zoom);
 		translate(-this.pos.x, -this.pos.y);
 
-		if(this.isShaking)
+		if (this.isShaking) {
 			this.applyShake();
+		}
 	}
 
 	applyShake() {
 		let timeSinceStart = Date.now() - this.shakeStart;
 
-		if(timeSinceStart > this.shakeDuration) {
+		if (timeSinceStart > this.shakeDuration) {
 			this.isShaking = false;
 			return;
 		}

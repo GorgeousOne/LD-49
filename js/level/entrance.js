@@ -1,4 +1,3 @@
-
 class Entrance extends Level {
 
 	constructor() {

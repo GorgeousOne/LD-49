@@ -1,4 +1,3 @@
-
 class Lift extends Drawable {
 
 	constructor(scale, texture, speed) {

@@ -1,5 +1,4 @@
-
-class Trigger extends Collidable{
+class Trigger extends Collidable {
 
 	constructor(width, height, callback, isPassable = true, canCollide = true, hasGravity = false) {
 		super(width, height, isPassable, canCollide, hasGravity);

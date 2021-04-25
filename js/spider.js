@@ -1,68 +1,62 @@
-
 const ropingSpeed = 1.5;
 
-class Spider {
+class Spider extends Drawable {
 
 	constructor() {
-		console.log("spider spawn");
-		this.hang = new Drawable(1, textureHandler.get("spider-hang"), true, false);
-		this.walk = new Drawable(1, textureHandler.get("spider-walk"), true, true, true);
-		this.walk.hitbox.size.set(11, 10);
-		this.walk.hitbox.translate(6, 0);
+		super(1, textureHandler.get("spider-hang"), true, false);
+		this.walk = textureHandler.get("spider-walk");
+
+		this.hitbox.size.set(11, 10);
+		this.hitbox.translate(6, 0);
 		this.ropePos = null;
 
 		this.ropingTimer = new Timer(2000);
 		this.cobwebTimer = new Timer(1000);
+
+		this.isMonster = true;
 	}
 
 	spawn(x, y) {
+		this.setPos(x, y);
 		this.ropePos = createVector(x, y);
-		this.hang.setPos(x, y);
 		this.ropingTimer.start();
-	}
-
-	despawn() {
-		physicsHandler.removeCollidable(this.walk);
+		physicsHandler.addCollidable(this);
 	}
 
 	display() {
-		let shape = this.walk;
-
 		if (this.ropingTimer.hasStarted) {
 
 			if (this.ropingTimer.isOver()) {
-				physicsHandler.addCollidable(this.walk);
-				this.walk.setPos(this.hang.pos.x, this.hang.pos.y);
+				this.canCollide = true;
+				this.hasGravity = true;
+				this.texture = this.walk;
 				this.cobwebTimer.start();
-			}else {
+			} else {
 				this.ropeDown();
-				return;
 			}
 		}
 
 		if (this.cobwebTimer.isOver()) {
-			let speed = 2 * Math.sign(player.pos.x - this.walk.pos.x);
-			let web = new Cobweb(speed).setPos(this.walk.pos.x, this.walk.pos.y);
+			let speed = 2 * Math.sign(player.pos.x - this.pos.x);
+			let web = new Cobweb(speed).setPos(this.pos.x, this.pos.y);
 
 			physicsHandler.addCollidable(web);
-			addDrawable(web);
-			this.cobwebTimer.duration = 6000;
+			addMonster(web);
+			this.cobwebTimer.duration = 4000;
 			this.cobwebTimer.start();
 		}
-		shape.display();
+		super.display();
 	}
 
 	ropeDown() {
-		this.hang.translate(0, ropingSpeed);
+		this.translate(0, ropingSpeed);
 
 		push();
 		strokeWeight(1);
 		stroke(200);
-		translate(this.hang.texture.width/2, 0);
-		line(this.ropePos.x, this.ropePos.y, this.hang.pos.x, this.hang.pos.y + this.hang.texture.height/2);
+		translate(this.texture.width / 2, 0);
+		line(this.ropePos.x, this.ropePos.y, this.pos.x, this.pos.y + this.texture.height / 2);
 		pop();
-
-		this.hang.display();
 	}
 }
 
@@ -72,5 +66,6 @@ class Cobweb extends Drawable {
 		super(1, textureHandler.get("cobweb"), true, true);
 		this.velocity.x = velocity;
 		this.isMirrored = velocity < 0;
+		this.isMonster = true;
 	}
 }
