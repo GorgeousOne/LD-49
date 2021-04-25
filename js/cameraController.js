@@ -11,7 +11,19 @@ class CameraController {
 	}
 
 	minX() {
-		return
+		return (-width/2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
+	}
+
+	maxX() {
+		return (-width/2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
+	}
+
+	minY() {
+		return (-height/2 + this.focusOffset.y * height) / this.zoom + this.pos.y;
+	}
+
+	maxY() {
+		return (height/2 + this.focusOffset.y * height) / this.zoom + this.pos.y;
 	}
 
 	setPos(x, y) {
@@ -40,7 +52,6 @@ class CameraController {
 				this.pos.x = this.target.pos.x;
 			}
 			if (this.followTargetY) {
-				// console.log("cam " + this.target.pos.y);
 				this.pos.y = this.target.pos.y;
 			}
 		}

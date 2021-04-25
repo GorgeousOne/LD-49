@@ -15,7 +15,7 @@ let eventHandler;
 let camera;
 let player;
 
-let showDebug = true;
+let showDebug = false;
 
 let levels;
 let currentLevel;
@@ -27,6 +27,8 @@ function preload() {
 	textureHandler = new TextureHandler();
 	textureHandler.loadAni("gengar", "textures/gengar-walk", "gengar-walk");
 	textureHandler.loadImage("wall", "textures/leftwall.png");
+	textureHandler.loadImage("backwall", "textures/backwall.png");
+
 	textureHandler.loadImage("platform", "textures/platform.png");
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
@@ -41,21 +43,18 @@ function setup() {
 
 	drawables = [];
 
-	// eventHandler.addCollisionListener(this);
+	camera = new CameraController(player);
+	camera.setPos(0, 300);
+	let isWide = width >= (height * 16/9);
+	// camera.zoom = isWide ? height / 1080 : width / 1920;
+	camera.zoom = 3;
+
 	physicsHandler = new PhysicsHandler();
 	eventHandler = new EventHandler();
 
 	player = new Player(textureHandler.getAni("gengar"));
 	player.setPos(400, 200);
 	physicsHandler.addCollidable(player);
-
-	camera = new CameraController(player);
-	camera.setPos(0, 300);
-
-	let isWide = width >= (height * 16/9);
-
-	// camera.zoom = isWide ? height / 1080 : width / 1920;
-	camera.zoom = 3;
 
 	levels = [];
 	levels.push(new Entrance());
@@ -87,7 +86,8 @@ function draw() {
 }
 
 function render() {
-	background(30, 34, 64);
+	// background(30, 34, 64);
+	background(0);
 	camera.focus();
 
 	levels[currentLevel].update();
@@ -103,11 +103,8 @@ function render() {
 		}
 	}
 
-	let cursorX = (mouseX - width/2) / camera.zoom + camera.pos.x;
-	let cursorY = (mouseY - height/2) / camera.zoom + camera.pos.y;
-
 	fill(255);
-	text(round(cursorX) + "," + round(cursorY), cursorX, cursorY + 20);
+	text(round(camera.minX()) + "," + round(camera.minY()), camera.minX(), camera.minY() + 10);
 }
 
 function onDeath() {
