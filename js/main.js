@@ -15,7 +15,7 @@ let eventHandler;
 let camera;
 let player;
 
-let showDebug = false;
+let showDebug = true;
 
 let levels;
 let currentLevel;
@@ -30,6 +30,7 @@ function preload() {
 	textureHandler.loadImage("platform", "textures/platform.png");
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
+	textureHandler.loadImage("cobweb", "textures/cobweb.png");
 
 	// bam = loadSound("sounds/BAMM.wav")
 }
@@ -86,8 +87,10 @@ function draw() {
 }
 
 function render() {
-	background(0);
+	background(30, 34, 64);
 	camera.focus();
+
+	levels[currentLevel].update();
 
 	for (let drawable of drawables) {
 		drawable.display();

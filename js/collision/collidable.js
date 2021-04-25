@@ -1,24 +1,24 @@
 class Collidable {
 
-	constructor(width, height, isSolid = true, hasGravity = false) {
+	constructor(width, height, isPassable = false, canCollide = true, hasGravity = false) {
 		this.hitbox = new Hitbox(width, height);
 		this.pos = createVector();
 		this.velocity = createVector();
 		this.intersectings = [];
-		this.isSolid = isSolid;
+		this.isPassable = isPassable;
+		this.canCollide = canCollide || !isPassable;
+
 		this.hasGravity = hasGravity;
 		this.isOnGround = false;
 		this.lastGround = null;
 
-		if (!this.isSolid) {
+		if (!this.isPassable) {
 			this.hitbox.outline = color(0, 255, 0);
 		}
 	}
 
 	setPos(x, y) {
 		this.translate(createVector(x, y).sub(this.pos));
-		// this.pos.set(x, y);
-		// this.hitbox.setPos(x, y);
 		return this;
 	}
 
@@ -57,7 +57,8 @@ class Collidable {
 		this.intersectings.removeIf(function (val) {!collisions.includes(val)});
 
 		for (let other of collisions) {
-			if (this.isSolid || other.isSolid) {
+
+			if (this.canCollide && !other.isPassable) {
 				let intersection = other.hitbox.getBoundX(-facing) - this.hitbox.getBoundX(facing);
 				this.translate(intersection, 0);
 				this.velocity.x = 0;
@@ -92,7 +93,8 @@ class Collidable {
 		this.intersectings.removeIf(function (val) {return !collisions.includes(val)});
 
 		for (let other of collisions) {
-			if (this.isSolid && other.isSolid) {
+
+			if (this.canCollide && !other.isPassable) {
 				let intersection = other.hitbox.getBoundY(-facing) - this.hitbox.getBoundY(facing);
 				this.translate(0, intersection);
 				this.velocity.y = 0;
@@ -117,7 +119,7 @@ class Collidable {
 	}
 
 	getCopy() {
-		let copy = new Collidable(this.w(), this.h(), this.isSolid, this.hasGravity);
+		let copy = new Collidable(this.w(), this.h(), this.isPassable, this.hasGravity);
 		copy.setPos(this.pos.x, this.pos.y);
 		copy.velocity.set(this.velocity);
 		return copy;

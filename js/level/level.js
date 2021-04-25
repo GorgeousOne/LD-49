@@ -9,6 +9,9 @@ class Level {
 		this.checkpointState = this.collidables;
 		this.checkpointSpawn = playerSpawn;
 	}
+
+	update() {}
+
 	addCollidable(collidable) {
 		this.collidables.push(collidable);
 	}

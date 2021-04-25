@@ -6,7 +6,7 @@ class TextureHandler {
 		this.animations = new Map();
 	}
 
-	getImage(nameKey) {
+	get(nameKey) {
 		if (!this.images.has(nameKey)) {
 			console.error("no key " + nameKey);
 		}

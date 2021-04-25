@@ -2,7 +2,7 @@
 class Player extends Collidable {
 
 	constructor(walkingAni) {
-		super(20, 20, true, true);
+		super(20, 20, true, true, true);
 		this.isMirrored = false;
 		this.hasJumpedOnce = false;
 		this.walkingAni = walkingAni;
