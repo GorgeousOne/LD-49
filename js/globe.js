@@ -13,14 +13,16 @@ class Globe extends Drawable {
 	}
 
 	updateY() {
-
+		if (this.pos.y > 400) {
+			removeMonster(this);
+		}
 		this.velocity.y = constrain(this.velocity.y, -5, 5);
 		super.updateY();
 	}
 
 	updateX(friction) {
 		if (this.isOnGround) {
-			this.velocity.x = 1;
+			this.velocity.x = 2;
 		}
 		super.updateX(1);
 	}

@@ -46,8 +46,6 @@ function preload() {
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
 	textureHandler.loadImage("cobweb", "textures/cobweb.png");
-	// music.volume(0.4);
-	// jumpSound.volume(0.5);
 }
 
 function setup() {
@@ -76,7 +74,7 @@ function setup() {
 	levels.push(new Entrance());
 	levels.push(new Elevator(music));
 
-	currentLevel = 0;
+	currentLevel = 1;
 	levels[currentLevel].start();
 }
 
@@ -139,6 +137,14 @@ function render() {
 	// text(round(camera.minX()) + "," + round(camera.minY()), camera.minX(), camera.minY() + 10);
 }
 
+function resetLevel() {
+	levels[currentLevel].rewind(player);
+	for (let monster of monsters) {
+		removeDrawable(monster);
+		physicsHandler.removeCollidable(monster);
+	}
+	monsters = [];
+}
 function nextLevel() {
 	levels[currentLevel].end();
 	currentLevel++;
@@ -183,17 +189,14 @@ function keyTyped() {
 			showDebug = !showDebug;
 			break;
 		case 82: //r
-			levels[currentLevel].rewind(player);
-			for (let monster of monsters) {
-				removeDrawable(monster);
-				physicsHandler.removeCollidable(monster);
-			}
-			monsters = [];
+			resetLevel();
 			break;
 	}
 }
 
-// function mousePressed() {
+function mousePressed() {
+	player.attack();
+}
 // 	let isFull = fullscreen();
 // 	fullscreen(!isFull);
 // }

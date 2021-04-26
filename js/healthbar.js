@@ -11,6 +11,7 @@ class Healthbar {
 	}
 
 	damage() {
+		console.log("dmg request");
 		if (player.dmgCooldown.isRunning()) {
 			return;
 		}
@@ -19,7 +20,7 @@ class Healthbar {
 		this.heartCount--;
 
 		if (this.heartCount <= 0) {
-			levels[currentLevel].rewind();
+			resetLevel();
 			this.heartCount = this.maxHealth;
 		}
 		player.dmgCooldown.start();

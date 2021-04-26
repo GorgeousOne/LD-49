@@ -10,6 +10,11 @@ class Player extends Collidable {
 		this.wasWalking = false;
 		this.walkingStart = 0;
 		this.dmgCooldown = new Timer(1500);
+
+		this.sword = new Sword(50, this.h());
+		this.facing = 1;
+		this.hitCooldown = new Timer(250);
+		// physicsHandler.addCollidable(this.sword);
 	}
 
 	setMirrored(bool) {
@@ -18,17 +23,26 @@ class Player extends Collidable {
 
 	walk(acceleration, maxSpeed) {
 		this.isWalking = true;
-		let walkingDir = Math.sign(acceleration);
+		this.facing = Math.sign(acceleration);
 
 		//accelerate faster when turning around
-		if (walkingDir !== Math.sign(this.velocity.x)) {
+		if (this.facing !== Math.sign(this.velocity.x)) {
 			acceleration *= 3;
 		}
 		this.velocity.x = constrain(this.velocity.x + acceleration, -maxSpeed, maxSpeed);
-		this.setMirrored(walkingDir === -1);
+		this.setMirrored(this.facing === -1);
 
 		if (!this.wasWalking) {
 			this.walkingStart = 0;
+		}
+		// this.sword.swing(this.hitbox, this.facing)
+	}
+
+	attack() {
+		if (!this.hitCooldown.isRunning()) {
+			this.sword.swing(this.hitbox, this.facing);
+			jumpSound.play();
+			this.hitCooldown.start();
 		}
 	}
 
@@ -76,7 +90,7 @@ class Player extends Collidable {
 		let timeWalked = this.isOnGround && this.isWalking ? Date.now() - this.walkingStart : 0;
 		let currentImg = this.walkingAni.getFrame(timeWalked);
 
-		//blonk
+		//dmg blink
 		if (!this.dmgCooldown.isRunning() || Date.now() % 100 < 50) {
 			image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
 		}
@@ -84,5 +98,20 @@ class Player extends Collidable {
 
 		this.wasWalking = this.isWalking;
 		this.isWalking = false;
+	}
+}
+
+class Sword extends Collidable {
+	constructor(width , height) {
+		super(width, height, true, false, false);
+	}
+
+	swing(hitbox, dir) {
+		let x = dir === 1 ? hitbox.getBoundX(dir) - hitbox.size.x : hitbox.getBoundX(dir) - this.w();
+		let y = hitbox.minY();
+		this.setPos(x, y);
+		for (let thing of physicsHandler.getCollisions(this)) {
+			eventHandler.callCollisionEvent(this, thing);
+		}
 	}
 }

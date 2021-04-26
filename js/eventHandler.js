@@ -28,58 +28,45 @@ class EventHandler {
 	}
 
 	onCollide(c1, c2) {
-		if (c1 instanceof Cobweb || c2 instanceof Cobweb) {
-			this._handleCobweb(c1, c2);
-			return
+		if (c1 instanceof Sword) {
+			this._handleSword(c1, c2);
 		}
-		if (c1 instanceof Globe || c2 instanceof Globe) {
-			this._handleGlobe(c1, c2);
-			return
-		}
-		if (c1 instanceof Book || c2 instanceof Book) {
-			this._handleBook(c1, c2);
-			return
+		if (c1.isMonster || c2.isMonster) {
+			this._monsterDamage(c1, c2);
 		}
 	}
 
-	_handleCobweb(c1, c2) {
-		if (c2 instanceof Cobweb) {
+	_handleSword(c1, c2) {
+		if (c2 instanceof Sword) {
 			[c1, c2] = [c2, c1];
 		}
-		if (c2.isMonster) {
-			return
+		if (c2 instanceof Cobweb || c2 instanceof Spider) {
+			camera.shake(2, 250);
+			removeMonster(c2);
 		}
-		if (c2 instanceof Player) {
-			lifebar.damage();
-		}
-		removeMonster(c1)
 	}
 
-	_handleGlobe(c1, c2) {
-		if (c2 instanceof Globe) {
+	_monsterDamage(c1, c2) {
+		if (c2.isMonster) {
 			[c1, c2] = [c2, c1];
 		}
 		if (c2.isMonster) {
-			return
+			return;
 		}
-		if (c2 instanceof Player) {
-			lifebar.damage();
+		if (c1 instanceof Cobweb) {
+			removeMonster(c1);
 		}
-		if (c2 instanceof Lift) {
+		if (c1 instanceof Globe && c2 instanceof Lift) {
 			camera.shake(3, 500);
+			return;
 		}
-	}
-
-	_handleBook(c1, c2) {
-		if (c2 instanceof Book) {
-			[c1, c2] = [c2, c1];
+		if (!(c2 instanceof Player)) {
+			return;
 		}
-		if (c2.isMonster) {
-			return
-		}
-		if (c2 instanceof Player) {
-			lifebar.damage();
-			removeMonster(c1)
+		lifebar.damage();
+		console.log(c1.constructor.name + " damage");
+		if (c1 instanceof Book) {
+			c1.velocity.x = 3;
 		}
 	}
 }

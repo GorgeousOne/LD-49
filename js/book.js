@@ -14,6 +14,9 @@ class Book extends Drawable {
 	}
 
 	updateY() {
+		if (this.pos.y > 400) {
+			removeMonster(this);
+		}
 		this.velocity.y = constrain(this.velocity.y, -4, 4);
 		super.updateY();
 	}
