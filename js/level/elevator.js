@@ -1,7 +1,8 @@
 class Elevator extends Level {
 
-	constructor() {
+	constructor(music) {
 		super(createVector(0, 0));
+		this.music = music;
 
 		this._createBackground();
 		this._createWalls();
@@ -41,9 +42,9 @@ class Elevator extends Level {
 		for (let i = 0; i < this.backCount; ++i) {
 			let back = new Drawable(this.backImg, true, false).setPos(-backWidth / 2, -width / 2 + i * this.backHeight);
 			this.addCollidable(back);
-			// if (i % 2 === 0) {
-			// 	back.isMirrored = true;
-			// }
+			if (i % 2 === 0) {
+				back.isMirrored = true;
+			}
 		}
 	}
 

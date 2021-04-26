@@ -29,6 +29,10 @@ let spitSound;
 
 //load files
 function preload() {
+	music = loadSound("sounds/sad.mp3");
+	jumpSound = loadSound("sounds/jump.mp3");
+	spitSound = loadSound("sounds/spit.mp3");
+
 	textureHandler = new TextureHandler();
 	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
 	textureHandler.loadImage("heart", "textures/heart.png");
@@ -36,16 +40,13 @@ function preload() {
 	textureHandler.loadImage("backwall", "textures/backwall.png");
 
 	textureHandler.loadImage("platform", "textures/platform.png");
-	textureHandler.loadImage("globe", "textures/globe.png");
+	textureHandler.loadImage("globe", "textures/globe2.png");
+	textureHandler.loadImage("book", "textures/book.png");
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
 	textureHandler.loadImage("cobweb", "textures/cobweb.png");
-
-	music = createAudio("sounds/sad.mp3");
-	jumpSound = createAudio("sounds/jump.mp3");
-	spitSound = createAudio("sounds/spit.mp3");
-	music.volume(0.4);
-	jumpSound.volume(0.5);
+	// music.volume(0.4);
+	// jumpSound.volume(0.5);
 }
 
 function setup() {
@@ -73,9 +74,9 @@ function setup() {
 
 	levels = [];
 	levels.push(new Entrance());
-	levels.push(new Elevator());
+	levels.push(new Elevator(music));
 
-	currentLevel = 1;
+	currentLevel = 0;
 	levels[currentLevel].start();
 }
 
@@ -116,7 +117,6 @@ function draw() {
 }
 
 function render() {
-	// background(30, 34, 64);
 	background(0);
 	camera.focus();
 
@@ -165,10 +165,22 @@ function movePlayer() {
 function keyTyped() {
 	switch (keyCode) {
 		case 32: //spacebar
-			let spider = new Globe();
+			let spider = new Spider();
 			addMonster(spider);
 			spider.spawn(player.pos.x, -300);
 			break;
+		case 66: //b
+			let globe = new Globe();
+			addMonster(globe);
+			globe.spawn(player.pos.x, -300);
+			break;
+
+		case 78: //n
+			let book = new Book();
+			addMonster(book);
+			book.spawn(player.pos.x, -300);
+			break;
+
 		case 81: //q
 			showDebug = !showDebug;
 			break;
@@ -183,10 +195,10 @@ function keyTyped() {
 	}
 }
 
-function mousePressed() {
-	let isFull = fullscreen();
-	fullscreen(!isFull);
-}
+// function mousePressed() {
+// 	let isFull = fullscreen();
+// 	fullscreen(!isFull);
+// }
 
 function keyReleased() {
 	if (keyCode === 87) { //w

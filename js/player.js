@@ -9,6 +9,7 @@ class Player extends Collidable {
 		this.isWalking = false;
 		this.wasWalking = false;
 		this.walkingStart = 0;
+		this.dmgCooldown = new Timer(1500);
 	}
 
 	setMirrored(bool) {
@@ -74,6 +75,10 @@ class Player extends Collidable {
 		}
 		let timeWalked = this.isOnGround && this.isWalking ? Date.now() - this.walkingStart : 0;
 		let currentImg = this.walkingAni.getFrame(timeWalked);
+
+		if (this.dmgCooldown.isRunning()) {
+			tint(255, 128);
+		}
 		image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
 		pop();
 

@@ -10,11 +10,14 @@ class Lifebar {
 	}
 
 	damage() {
+		if (player.dmgCooldown.isRunning()) {
+			return
+		}
+
 		camera.shake(5, 250);
 		this.heartCount--;
-		if (this.heartCount <= 0) {
-			console.log("DEATH!!!")
-		}
+		player.dmgCooldown.start();
+		player.velocity.x = Math.sign(player.velocity.x) * -3;
 	}
 
 	display() {

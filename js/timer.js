@@ -11,8 +11,12 @@ class Timer {
 		this.hasStarted = true;
 	}
 
+	isRunning() {
+		return this.startTime != null && Date.now() - this.startTime < this.duration;
+	}
+
 	isOver() {
-		if (this.startTime != null && Date.now() - this.startTime > this.duration) {
+		if (this.startTime != null && Date.now() - this.startTime >= this.duration) {
 			this.hasStarted = false;
 			return true;
 		}
