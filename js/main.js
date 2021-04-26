@@ -34,7 +34,9 @@ let showDebug = false;
 
 //load files
 function preload() {
+	loadImage('js/font/pixel-font.min.png', img => loadLetters(img));
 	monsterQueue = loadStrings("js/monster-queue.txt");
+
 	music = loadSound("sounds/sad.mp3");
 	jumpSound = loadSound("sounds/jump.mp3");
 	spitSound = loadSound("sounds/spit.mp3");
@@ -43,6 +45,8 @@ function preload() {
 	globeBonk = loadSound("sounds/globe-bonk.wav");
 
 	textureHandler = new TextureHandler();
+	textureHandler.loadImage("grandpa", "textures/grandpa.png");
+
 	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
 	textureHandler.loadAni("kid-hit", "textures/kid", "kid-hit");
 
@@ -61,6 +65,7 @@ function preload() {
 }
 
 let elevator;
+
 function setup() {
 	createCanvas(windowWidth, windowHeight, P2D);
 	noSmooth();
@@ -68,18 +73,14 @@ function setup() {
 	drawables = [];
 	monsters = [];
 
-	camera = new CameraController(player);
-	camera.setPos(0, 300);
-	let isWide = width >= (height * 16 / 9);
-	// camera.zoom = isWide ? height / 1080 : width / 1920;
-	camera.zoom = 3;
+	camera = new CameraController();
+	windowResized();
 
 	physicsHandler = new PhysicsHandler();
 	eventHandler = new EventHandler();
 
 	player = new Player(textureHandler.getAni("kid"));
-	player.setPos(400, 200);
-	physicsHandler.addCollidable(player);
+	player.hasGravity = false;
 
 	lifebar = new Healthbar(3);
 
@@ -87,16 +88,21 @@ function setup() {
 	levels.push(new Entrance());
 	levels.push(elevator = new Elevator(monsterQueue));
 
-	currentLevel = 1;
+	currentLevel = 0;
 	levels[currentLevel].start();
 }
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
+	let isWide = width >= (height * 16 / 9);
+	camera.zoom = isWide ? height / 1080 : width / 1920;
+	camera.zoom *= 3;
 }
 
 function addDrawable(drawable) {
-	drawables.push(drawable);
+	if (!drawables.includes(drawable)) {
+		drawables.push(drawable);
+	}
 }
 
 function removeDrawable(drawable) {
@@ -137,7 +143,10 @@ function render() {
 		drawable.display();
 	}
 
-	player.display();
+	if (currentLevel !== 0) {
+		player.display();
+	}
+
 	lifebar.display();
 
 	if (showDebug) {
@@ -145,10 +154,9 @@ function render() {
 			thing.hitbox.display();
 		}
 	}
-
-	fill(255);
-	let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
-	text(round(cursorX), camera.minX(), camera.minY() + 10);
+	// fill(255);
+	// let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
+	// text(round(cursorX), camera.minX(), camera.minY() + 10);
 }
 
 function resetLevel() {
@@ -214,13 +222,16 @@ function keyTyped() {
 	}
 }
 
+function keyPressed() {
+	if (keyCode === 27) { //escape
+		let isFull = fullscreen();
+		fullscreen(!isFull);
+	}
+}
+
 function mousePressed() {
 	player.attack();
 }
-
-// 	let isFull = fullscreen();
-// 	fullscreen(!isFull);
-// }
 
 function keyReleased() {
 	if (keyCode === 87) { //w

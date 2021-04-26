@@ -11,6 +11,7 @@ class Book extends Drawable {
 	}
 
 	spawn() {
+		this.velocity.set(0, 0);
 		this.setPos(this.spawnPos.x, this.spawnPos.y);
 		physicsHandler.addCollidable(this);
 		bookSound.play();

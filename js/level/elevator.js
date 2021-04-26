@@ -15,7 +15,8 @@ class Elevator extends Level {
 		let fallTrigger = new Trigger(1000, 10, () => {
 			lifebar.damage();
 			player.setPos(0, -player.h());
-		}).setPos(-500, 500);
+		});
+		fallTrigger.setPos(-500, 500);
 		this.addCollidable(fallTrigger);
 
 		this.checkpointLiftHeight = 0;
@@ -25,10 +26,11 @@ class Elevator extends Level {
 	_loadMonsters(textFile) {
 		this.checkpointMobs = new Map();
 
-		for (let i = 1; i < textFile.length; i++) {
+		for (let i = 0; i < textFile.length; i++) {
 			let info = textFile[i].split(' ');
 			let level = parseInt(info[0]);
 			let x = parseInt(info[1]);
+			console.log("added " + info[2]);
 
 			switch (info[2]) {
 				case "spider":
@@ -103,6 +105,9 @@ class Elevator extends Level {
 
 	start() {
 		super.start();
+		player.hasGravity = true;
+		physicsHandler.addCollidable(player);
+
 		this.gameStateMobs = new Map(this.checkpointMobs);
 		this.liftHeight = this.checkpointLiftHeight;
 
@@ -144,6 +149,7 @@ class Elevator extends Level {
 		for (let height of this.gameStateMobs.keys()) {
 			if (height > this.liftHeight) {
 				let monster = this.gameStateMobs.get(height);
+				console.log(monster.constructor.name);
 				monster.spawn();
 				addMonster(monster);
 				this.gameStateMobs.delete(height);

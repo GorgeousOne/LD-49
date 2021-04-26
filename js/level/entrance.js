@@ -1,11 +1,29 @@
 class Entrance extends Level {
 
 	constructor() {
-		super(createVector(200, 400));
-		this.addCollidable(new Collidable(1000, 20).setPos(100, 500));
-		this.addCollidable(new Collidable(100, 100).setPos(200, 400));
-		this.addCollidable(new Collidable(50, 50, true, true).setPos(400, 200));
+		super(createVector(0, 0));
+		this.text = new PixelText("Young boy," +
+			"\nwould you be so kind to" +
+			"\nbring me a book from the" +
+			"\nlibrary?" +
+			"\nThe one from all the way down?" +
+			"\n" +
+			"\n  >SPACE<", -100,-50, 2);
+		// addDrawable(this.text);
+		this.grandpa = new Drawable(textureHandler.get("grandpa"));
+	}
 
-		this.addCollidable(new Trigger(20, 290, nextLevel).setPos(100, 200))
+	update() {
+		this.text.display();
+		push();
+		translate(-200, -50);
+		scale(5);
+		this.grandpa.display();
+		// image(textureHandler.get("grandpa"), 0, 0);
+		pop();
+
+		if (keyIsDown(32)) {
+			nextLevel();
+		}
 	}
 }

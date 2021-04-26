@@ -4,6 +4,7 @@ class Spider extends Drawable {
 
 	constructor(spawnX, spawnY) {
 		super(textureHandler.get("spider-hang"), true, false);
+		this.hang = textureHandler.get("spider-hang");
 		this.walk = textureHandler.get("spider-walk");
 
 		this.hitbox.size.set(11, 10);
@@ -11,15 +12,18 @@ class Spider extends Drawable {
 		this.ropePos = null;
 
 		this.ropingTimer = new Timer(2000);
-		this.cobwebTimer = new Timer(1000);
+		this.cobwebTimer = new Timer(500);
 
 		this.isMonster = true;
 		this.spawnPos = createVector(spawnX, spawnY);
 	}
 
 	spawn() {
-		this.setPos(this.spawnPos.x, this.spawnPos.y);
+		this.canCollide = false;
+		this.hasGravity = false;
+		this.texture = this.hang;
 
+		this.setPos(this.spawnPos.x, this.spawnPos.y);
 		this.ropePos = this.pos.copy();
 		this.ropingTimer.start();
 		physicsHandler.addCollidable(this);

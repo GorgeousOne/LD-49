@@ -11,7 +11,9 @@ class PhysicsHandler {
 	}
 
 	addCollidable(collidable) {
-		this.collidables.push(collidable);
+		if (!this.collidables.includes(collidable)) {
+			this.collidables.push(collidable);
+		}
 	}
 
 	removeCollidable(collidable) {
