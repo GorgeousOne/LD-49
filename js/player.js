@@ -24,7 +24,7 @@ class Player extends Collidable {
 			acceleration *= 3;
 		}
 		this.velocity.x = constrain(this.velocity.x + acceleration, -maxSpeed, maxSpeed);
-		this.setMirrored(walkingDir === 1);
+		this.setMirrored(walkingDir === -1);
 
 		if (!this.wasWalking) {
 			this.walkingStart = 0;
@@ -62,6 +62,7 @@ class Player extends Collidable {
 		}
 		this.velocity.y = newVelY;
 		this.hasJumpedOnce = true;
+		jumpSound.play();
 	}
 
 	display() {

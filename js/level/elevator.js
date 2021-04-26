@@ -6,9 +6,8 @@ class Elevator extends Level {
 		this._createBackground();
 		this._createWalls();
 
-		let platformWidth = textureHandler.get("platform").width * 0.25;
-		this.lift = new Lift(0.25, textureHandler.get("platform"), 1);
-		this.lift.setPos(-platformWidth / 2, 100);
+		this.lift = new Lift(1);
+		this.lift.setPos(-this.lift.w() / 2, 100);
 		this.addCollidable(this.lift);
 	}
 
@@ -21,8 +20,8 @@ class Elevator extends Level {
 		this.wallCount = Math.ceil((camera.maxY() - camera.minY()) / this.wallHeight) + 2; //+2 for assurance
 
 		for (let i = 0; i < this.wallCount; ++i) {
-			let leftWall = new Drawable(1, this.wallImg).setPos(-240, -width / 2 + i * this.wallHeight);
-			let rightWall = new Drawable(1, this.wallImg).setPos(240 - wallWidth, -width / 2 + i * this.wallHeight);
+			let leftWall = new Drawable(this.wallImg).setPos(-240, -width / 2 + i * this.wallHeight);
+			let rightWall = new Drawable(this.wallImg).setPos(240 - wallWidth, -width / 2 + i * this.wallHeight);
 			rightWall.isMirrored = true;
 
 			this.addCollidable(leftWall);
@@ -40,7 +39,7 @@ class Elevator extends Level {
 		this.backCount = Math.ceil((camera.maxY() - camera.minY()) / this.backHeight) + 2;
 
 		for (let i = 0; i < this.backCount; ++i) {
-			let back = new Drawable(1, this.backImg, true, false).setPos(-backWidth / 2, -width / 2 + i * this.backHeight);
+			let back = new Drawable(this.backImg, true, false).setPos(-backWidth / 2, -width / 2 + i * this.backHeight);
 			this.addCollidable(back);
 			// if (i % 2 === 0) {
 			// 	back.isMirrored = true;
@@ -50,6 +49,13 @@ class Elevator extends Level {
 
 	start() {
 		super.start();
+
+		if (!this.musicLoop) {
+			this.musicLoop = new Timer(1000 * 85);
+			this.musicLoop.start();
+			music.play();
+		}
+
 		this.walls = [];
 		this.back = [];
 
@@ -71,6 +77,11 @@ class Elevator extends Level {
 	}
 
 	update() {
+		if (this.musicLoop.isOver()) {
+			this.musicLoop.start();
+			music.play();
+		}
+
 		for (let wall of this.walls) {
 			wall.translate(0, -this.lift.speed);
 			if (wall.hitbox.maxY() < camera.minY()) {

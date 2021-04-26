@@ -3,7 +3,7 @@ const ropingSpeed = 1.5;
 class Spider extends Drawable {
 
 	constructor() {
-		super(1, textureHandler.get("spider-hang"), true, false);
+		super(textureHandler.get("spider-hang"), true, false);
 		this.walk = textureHandler.get("spider-walk");
 
 		this.hitbox.size.set(11, 10);
@@ -63,7 +63,8 @@ class Spider extends Drawable {
 class Cobweb extends Drawable {
 
 	constructor(velocity) {
-		super(1, textureHandler.get("cobweb"), true, true);
+		super(textureHandler.get("cobweb"), true, true);
+		spitSound.play();
 		this.velocity.x = velocity;
 		this.isMirrored = velocity < 0;
 		this.isMonster = true;

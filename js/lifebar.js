@@ -10,6 +10,7 @@ class Lifebar {
 	}
 
 	damage() {
+		camera.shake(5, 250);
 		this.heartCount--;
 		if (this.heartCount <= 0) {
 			console.log("DEATH!!!")

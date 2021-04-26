@@ -1,7 +1,7 @@
 class Lift extends Drawable {
 
-	constructor(scale, texture, speed) {
-		super(scale, texture);
+	constructor(speed) {
+		super(textureHandler.get("platform"));
 		this.speed = speed;
 	}
 

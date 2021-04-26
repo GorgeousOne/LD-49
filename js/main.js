@@ -23,6 +23,10 @@ let currentLevel;
 let drawables;
 let monsters;
 
+let music;
+let jumpSound;
+let spitSound;
+
 //load files
 function preload() {
 	textureHandler = new TextureHandler();
@@ -32,11 +36,16 @@ function preload() {
 	textureHandler.loadImage("backwall", "textures/backwall.png");
 
 	textureHandler.loadImage("platform", "textures/platform.png");
+	textureHandler.loadImage("globe", "textures/globe.png");
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
 	textureHandler.loadImage("cobweb", "textures/cobweb.png");
 
-	// bam = loadSound("sounds/BAMM.wav")
+	music = createAudio("sounds/sad.mp3");
+	jumpSound = createAudio("sounds/jump.mp3");
+	spitSound = createAudio("sounds/spit.mp3");
+	music.volume(0.4);
+	jumpSound.volume(0.5);
 }
 
 function setup() {
@@ -155,9 +164,9 @@ function movePlayer() {
 
 function keyTyped() {
 	switch (keyCode) {
-		case 32:
-			let spider = new Spider();
-			addMonster(spider)
+		case 32: //spacebar
+			let spider = new Globe();
+			addMonster(spider);
 			spider.spawn(player.pos.x, -300);
 			break;
 		case 81: //q
