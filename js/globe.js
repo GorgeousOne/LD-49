@@ -13,6 +13,7 @@ class Globe extends Drawable {
 	}
 
 	updateY() {
+
 		this.velocity.y = constrain(this.velocity.y, -5, 5);
 		super.updateY();
 	}

@@ -1,7 +1,8 @@
-class Lifebar {
+class Healthbar {
 
-	constructor(heartCount) {
-		this.heartCount = heartCount;
+	constructor(maxHealth) {
+		this.maxHealth = maxHealth;
+		this.heartCount = maxHealth;
 		this.container = textureHandler.get("heart");
 	}
 
@@ -11,11 +12,16 @@ class Lifebar {
 
 	damage() {
 		if (player.dmgCooldown.isRunning()) {
-			return
+			return;
 		}
 
 		camera.shake(5, 250);
 		this.heartCount--;
+
+		if (this.heartCount <= 0) {
+			levels[currentLevel].rewind();
+			this.heartCount = this.maxHealth;
+		}
 		player.dmgCooldown.start();
 		player.velocity.x = Math.sign(player.velocity.x) * -3;
 	}

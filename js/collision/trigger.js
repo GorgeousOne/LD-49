@@ -10,7 +10,7 @@ class Trigger extends Collidable {
 	}
 
 	getCopy() {
-		let copy = new Trigger(this.w(), this.h(), this.callback, this.isPassable, this.hasGravity);
+		let copy = new Trigger(this.w(), this.h(), this.callback, this.isPassable, this.canCollide, this.hasGravity);
 		copy.setPos(this.pos.x, this.pos.y);
 		copy.velocity.set(this.velocity);
 		return copy;

@@ -1,15 +1,57 @@
 class Elevator extends Level {
 
-	constructor(music) {
-		super(createVector(0, 0));
-		this.music = music;
+	constructor() {
+		super(createVector(0, -player.h()));
 
 		this._createBackground();
+		this._createShelves();
 		this._createWalls();
 
-		this.lift = new Lift(1);
-		this.lift.setPos(-this.lift.w() / 2, 100);
+		this.lift = new Lift(2);
+		this.lift.setPos(-this.lift.w() / 2, 0);
 		this.addCollidable(this.lift);
+
+		let fallTrigger = new Trigger(1000, 10, () => {
+			lifebar.damage();
+			player.setPos(0, -player.h());
+		}).setPos(-500, 500);
+		this.addCollidable(fallTrigger);
+	}
+
+	_createBackground() {
+		this.backSpeed = 0.2;
+		this.backs = [];
+		this.backImg = textureHandler.get("backwall");
+
+		this.backHeight = this.backImg.height;
+		let backWidth = this.backImg.width;
+		this.backCount = Math.ceil((camera.maxY() - camera.minY()) / this.backHeight) + 2;
+
+		for (let i = 0; i < this.backCount; ++i) {
+			let back = new Drawable(this.backImg, true, false).setPos(-backWidth / 2, -width / 2 + i * this.backHeight);
+			this.addCollidable(back);
+			if (i % 2 === 0) {
+				back.isMirrored = true;
+			}
+		}
+	}
+
+	_createShelves() {
+		this.shelfSpeed = 0.5;
+		this.shelves = [];
+		this.shelfImg = textureHandler.get("shelf");
+
+		this.shelfHeight = this.shelfImg.height;
+		let shelfWidth = this.shelfImg.width;
+		this.shelfCount = Math.ceil((camera.maxY() - camera.minY()) / this.shelfHeight) + 2;
+
+		for (let i = 0; i < this.shelfCount; ++i) {
+			let shelf = new Drawable(this.shelfImg, true, false).setPos(-shelfWidth / 2, -width / 2 + i * this.shelfHeight);
+			this.addCollidable(shelf);
+			if (i % 2 === 0) {
+				shelf.isMirrored = true;
+			}
+		}
 	}
 
 	_createWalls() {
@@ -27,24 +69,6 @@ class Elevator extends Level {
 
 			this.addCollidable(leftWall);
 			this.addCollidable(rightWall);
-		}
-	}
-
-	_createBackground() {
-		this.backSpeed = 0.25;
-		this.backs = [];
-		this.backImg = textureHandler.get("backwall");
-
-		this.backHeight = this.backImg.height;
-		let backWidth = this.backImg.width;
-		this.backCount = Math.ceil((camera.maxY() - camera.minY()) / this.backHeight) + 2;
-
-		for (let i = 0; i < this.backCount; ++i) {
-			let back = new Drawable(this.backImg, true, false).setPos(-backWidth / 2, -width / 2 + i * this.backHeight);
-			this.addCollidable(back);
-			if (i % 2 === 0) {
-				back.isMirrored = true;
-			}
 		}
 	}
 
@@ -72,9 +96,11 @@ class Elevator extends Level {
 			} else if (collidable.texture === this.backImg) {
 				this.backs.push(collidable);
 				physicsHandler.removeCollidable(collidable);
+			}else if(collidable.texture === this.shelfImg){
+				this.shelves.push(collidable);
+				physicsHandler.removeCollidable(collidable);
 			}
 		}
-
 	}
 
 	update() {
@@ -94,6 +120,12 @@ class Elevator extends Level {
 			back.translate(0, -this.lift.speed * this.backSpeed);
 			if (back.hitbox.maxY() < camera.minY()) {
 				back.translate(0, this.wallCount * this.wallHeight);
+			}
+		}
+		for (let shelf of this.shelves) {
+			shelf.translate(0, -this.lift.speed * this.shelfSpeed);
+			if (shelf.hitbox.maxY() < camera.minY()) {
+				shelf.translate(0, this.wallCount * this.wallHeight);
 			}
 		}
 	}

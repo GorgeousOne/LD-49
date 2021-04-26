@@ -76,10 +76,10 @@ class Player extends Collidable {
 		let timeWalked = this.isOnGround && this.isWalking ? Date.now() - this.walkingStart : 0;
 		let currentImg = this.walkingAni.getFrame(timeWalked);
 
-		if (this.dmgCooldown.isRunning()) {
-			tint(255, 128);
+		//blonk
+		if (!this.dmgCooldown.isRunning() || Date.now() % 100 < 50) {
+			image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
 		}
-		image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
 		pop();
 
 		this.wasWalking = this.isWalking;

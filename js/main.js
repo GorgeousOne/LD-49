@@ -38,6 +38,7 @@ function preload() {
 	textureHandler.loadImage("heart", "textures/heart.png");
 	textureHandler.loadImage("wall", "textures/wall.png");
 	textureHandler.loadImage("backwall", "textures/backwall.png");
+	textureHandler.loadImage("shelf", "textures/shelf.png");
 
 	textureHandler.loadImage("platform", "textures/platform.png");
 	textureHandler.loadImage("globe", "textures/globe2.png");
@@ -69,8 +70,7 @@ function setup() {
 	player.setPos(400, 200);
 	physicsHandler.addCollidable(player);
 
-	lifebar = new Lifebar(3);
-	addDrawable(lifebar);
+	lifebar = new Healthbar(3);
 
 	levels = [];
 	levels.push(new Entrance());
@@ -125,7 +125,9 @@ function render() {
 	for (let drawable of drawables) {
 		drawable.display();
 	}
+
 	player.display();
+	lifebar.display();
 
 	if (showDebug) {
 		for (let thing of physicsHandler.collidables) {
@@ -135,10 +137,6 @@ function render() {
 
 	fill(255);
 	// text(round(camera.minX()) + "," + round(camera.minY()), camera.minX(), camera.minY() + 10);
-}
-
-function onDeath() {
-	levels[currentLevel].rewind();
 }
 
 function nextLevel() {
