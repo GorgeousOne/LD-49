@@ -1,8 +1,9 @@
 class Elevator extends Level {
 
-	constructor() {
+	constructor(mobQueue) {
 		super(createVector(0, -player.h()));
 
+		this._loadMonsters(mobQueue);
 		this._createBackground();
 		this._createShelves();
 		this._createWalls();
@@ -17,8 +18,33 @@ class Elevator extends Level {
 		}).setPos(-500, 500);
 		this.addCollidable(fallTrigger);
 
-		this.depth = 0;
+		this.checkpointLiftHeight = 0;
+		this.liftHeight = 0;
+	}
 
+	_loadMonsters(textFile) {
+		this.checkpointMobs = new Map();
+
+		for (let i = 1; i < textFile.length; i++) {
+			let info = textFile[i].split(' ');
+			let level = parseInt(info[0]);
+			let x = parseInt(info[1]);
+
+			switch (info[2]) {
+				case "spider":
+					this.checkpointMobs.set(level, new Spider(x, -300));
+					break;
+				case "book":
+					this.checkpointMobs.set(level, new Book(x, -300));
+					break;
+				case "globe":
+					this.checkpointMobs.set(level, new Globe(x, -300));
+
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	_createBackground() {
@@ -77,6 +103,8 @@ class Elevator extends Level {
 
 	start() {
 		super.start();
+		this.gameStateMobs = new Map(this.checkpointMobs);
+		this.liftHeight = this.checkpointLiftHeight;
 
 		if (!this.musicLoop) {
 			this.musicLoop = new Timer(1000 * 85);
@@ -99,14 +127,29 @@ class Elevator extends Level {
 			} else if (collidable.texture === this.backImg) {
 				this.backs.push(collidable);
 				physicsHandler.removeCollidable(collidable);
-			}else if(collidable.texture === this.shelfImg){
+			} else if (collidable.texture === this.shelfImg) {
 				this.shelves.push(collidable);
 				physicsHandler.removeCollidable(collidable);
 			}
 		}
 	}
 
+	setCheckPoint() {
+		super.setCheckPoint();
+		this.checkpointLiftHeight = this.liftHeight;
+		this.checkpointMobs = this.gameStateMobs;
+	}
+
 	update() {
+		for (let height of this.gameStateMobs.keys()) {
+			if (height > this.liftHeight) {
+				let monster = this.gameStateMobs.get(height);
+				monster.spawn();
+				addMonster(monster);
+				this.gameStateMobs.delete(height);
+			}
+		}
+
 		if (this.musicLoop.isOver()) {
 			this.musicLoop.start();
 			music.play();
@@ -131,6 +174,6 @@ class Elevator extends Level {
 				shelf.translate(0, this.wallCount * this.wallHeight);
 			}
 		}
-		this.depth -= this.lift.speed;
+		this.liftHeight -= this.lift.speed;
 	}
 }

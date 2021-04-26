@@ -15,8 +15,6 @@ let camera;
 let player;
 let lifebar;
 
-let showDebug = false;
-
 let levels;
 let currentLevel;
 
@@ -27,15 +25,22 @@ let music;
 let jumpSound;
 let spitSound;
 let bookSound;
+let globeBonk;
+
 let swordSound;
+
+let monsterQueue;
+let showDebug = false;
 
 //load files
 function preload() {
+	monsterQueue = loadStrings("js/monster-queue.txt");
 	music = loadSound("sounds/sad.mp3");
 	jumpSound = loadSound("sounds/jump.mp3");
 	spitSound = loadSound("sounds/spit.mp3");
 	bookSound = loadSound("sounds/book-slap.wav");
 	swordSound = loadSound("sounds/slash2.wav");
+	globeBonk = loadSound("sounds/globe-bonk.wav");
 
 	textureHandler = new TextureHandler();
 	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
@@ -80,7 +85,7 @@ function setup() {
 
 	levels = [];
 	levels.push(new Entrance());
-	levels.push(elevator = new Elevator(music));
+	levels.push(elevator = new Elevator(monsterQueue));
 
 	currentLevel = 1;
 	levels[currentLevel].start();
@@ -180,24 +185,24 @@ function keyTyped() {
 	let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
 	switch (keyCode) {
 		case 49: //1
-			console.log(elevator.depth, cursorX, "spid");
-			let spider = new Spider();
+			console.log(elevator.depth, Math.floor(cursorX), "spid");
+			let spider = new Spider(cursorX, -300);
 			addMonster(spider);
-			spider.spawn(cursorX, -300);
+			spider.spawn();
 			break;
 
 		case 51: //2
-			console.log(elevator.depth, cursorX, "glob");
-			let globe = new Globe();
+			console.log(elevator.depth, Math.floor(cursorX), "glob");
+			let globe = new Globe(cursorX, -300);
 			addMonster(globe);
-			globe.spawn(cursorX, -300);
+			globe.spawn();
 			break;
 
 		case 50: //3
-			console.log(elevator.depth, cursorX, "book");
-			let book = new Book();
+			console.log(elevator.depth, Math.floor(cursorX), "book");
+			let book = new Book(cursorX, -300);
 			addMonster(book);
-			book.spawn(cursorX, -300);
+			book.spawn();
 			break;
 
 		case 81: //q

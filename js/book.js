@@ -1,23 +1,26 @@
+const bookSpeed = 3;
 
 class Book extends Drawable {
 
-	constructor(speed) {
+	constructor(spawnX, spawnY) {
 		super(textureHandler.get("book"), true, false, true);
 		this.isMonster = true;
 		this.rotation = 0;
-		this.velocity.x = speed;
+		this.spawnPos = createVector(spawnX, spawnY);
+
 	}
 
-	spawn(x, y) {
-		this.setPos(x, y);
+	spawn() {
+		this.setPos(this.spawnPos.x, this.spawnPos.y);
 		physicsHandler.addCollidable(this);
+		bookSound.play();
 	}
 
 	updateY() {
 		if (this.pos.y > 400) {
 			removeMonster(this);
 		}
-		this.velocity.y = constrain(this.velocity.y, -3, 3);
+		this.velocity.y = constrain(this.velocity.y, -bookSpeed, bookSpeed);
 		super.updateY();
 	}
 }

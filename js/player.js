@@ -12,7 +12,7 @@ class Player extends Collidable {
 		this.walkingStart = 0;
 		this.dmgCooldown = new Timer(1500);
 
-		this.sword = new Sword(50, this.h());
+		this.sword = new Sword(40, this.h());
 		this.facing = 1;
 		this.hitCooldown = new Timer(300);
 		this.lastHit = null;
@@ -90,15 +90,12 @@ class Player extends Collidable {
 		if (this.isMirrored) {
 			scale(-1, 1);
 		}
-
 		if (this.lastHit && Date.now() - this.lastHit < this.hitAni.duration()) {
 			translate(10.5, 0);
 			let currentImg = this.hitAni.getFrame(Date.now() - this.lastHit);
 			image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
-			return;
-		}
 
-		if (!this.dmgCooldown.isRunning() || Date.now() % 100 < 50) {
+		} else if (!this.dmgCooldown.isRunning() || Date.now() % 100 < 50) {
 			let timeWalked = this.isOnGround && this.isWalking ? Date.now() - this.walkingStart : 0;
 			let currentImg = this.walkAni.getFrame(timeWalked);
 			image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
@@ -116,7 +113,7 @@ class Sword extends Collidable {
 	}
 
 	swing(hitbox, dir) {
-		let x = dir === 1 ? hitbox.getBoundX(dir) - hitbox.size.x : hitbox.getBoundX(dir) - this.w();
+		let x = dir === 1 ? hitbox.getBoundX(dir) - hitbox.size.x : hitbox.getBoundX(dir) + hitbox.size.x - this.w();
 		let y = hitbox.minY();
 		this.setPos(x, y);
 		for (let thing of physicsHandler.getCollisions(this)) {

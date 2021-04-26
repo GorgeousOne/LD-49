@@ -2,7 +2,7 @@ const ropingSpeed = 1.5;
 
 class Spider extends Drawable {
 
-	constructor() {
+	constructor(spawnX, spawnY) {
 		super(textureHandler.get("spider-hang"), true, false);
 		this.walk = textureHandler.get("spider-walk");
 
@@ -14,11 +14,13 @@ class Spider extends Drawable {
 		this.cobwebTimer = new Timer(1000);
 
 		this.isMonster = true;
+		this.spawnPos = createVector(spawnX, spawnY);
 	}
 
-	spawn(x, y) {
-		this.setPos(x, y);
-		this.ropePos = createVector(x, y);
+	spawn() {
+		this.setPos(this.spawnPos.x, this.spawnPos.y);
+
+		this.ropePos = this.pos.copy();
 		this.ropingTimer.start();
 		physicsHandler.addCollidable(this);
 	}

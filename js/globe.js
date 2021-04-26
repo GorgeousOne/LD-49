@@ -1,14 +1,17 @@
 
 class Globe extends Drawable {
 
-	constructor() {
+	constructor(spawnX, spawnY) {
 		super(textureHandler.get("globe"), true, true, true);
 		this.isMonster = true;
 		this.rotation = 0;
+		this.spawnPos = createVector(spawnX, spawnY);
+		this.wasOnGround = false;
 	}
 
-	spawn(x, y) {
-		this.setPos(x, y);
+	spawn() {
+		this.setPos(this.spawnPos.x, this.spawnPos.y);
+		this.facing = -Math.sign(this.pos.x);
 		physicsHandler.addCollidable(this);
 	}
 
@@ -22,13 +25,17 @@ class Globe extends Drawable {
 
 	updateX(friction) {
 		if (this.isOnGround) {
-			this.velocity.x = 2;
+			if (!this.wasOnGround) {
+				globeBonk.play();
+				this.wasOnGround = true;
+			}
+			this.velocity.x = this.facing * 2;
 		}
 		super.updateX(1);
 	}
 
 	display() {
-		this.rotation += PI / 32;
+		this.rotation += PI / 32 * this.facing;
 		let imgWidth = this.texture.width;
 		let imgHeight = this.texture.height;
 

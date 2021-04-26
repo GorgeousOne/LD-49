@@ -57,6 +57,7 @@ class EventHandler {
 			removeMonster(c1);
 		}
 		if (c1 instanceof Globe && c2 instanceof Lift) {
+			globeBonk.play();
 			camera.shake(3, 500);
 			return;
 		}
