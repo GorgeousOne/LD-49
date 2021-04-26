@@ -22,6 +22,9 @@ class Spider extends Drawable {
 		this.canCollide = false;
 		this.hasGravity = false;
 		this.texture = this.hang;
+		//stops timer from being over after resawn
+		this.cobwebTimer.startTime = null;
+		this.cobwebTimer.duration = 500;
 
 		this.setPos(this.spawnPos.x, this.spawnPos.y);
 		this.ropePos = this.pos.copy();

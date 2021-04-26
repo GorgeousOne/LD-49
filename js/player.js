@@ -12,7 +12,7 @@ class Player extends Collidable {
 		this.walkingStart = 0;
 		this.dmgCooldown = new Timer(1500);
 
-		this.sword = new Sword(40, this.h());
+		this.sword = new Sword(45, this.h());
 		this.facing = 1;
 		this.hitCooldown = new Timer(300);
 		this.lastHit = null;

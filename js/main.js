@@ -137,11 +137,11 @@ function render() {
 	background(0);
 	camera.focus();
 
-	levels[currentLevel].update();
 
 	for (let drawable of drawables) {
 		drawable.display();
 	}
+	levels[currentLevel].update();
 
 	if (currentLevel !== 0) {
 		player.display();
@@ -157,6 +157,10 @@ function render() {
 	// fill(255);
 	// let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
 	// text(round(cursorX), camera.minX(), camera.minY() + 10);
+	// fill(255);
+	// stroke(255);
+	// text(elevator.liftHeight + "|5000", camera.maxX()-100, camera.minY() + 10);
+
 }
 
 function resetLevel() {
@@ -193,21 +197,21 @@ function keyTyped() {
 	let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
 	switch (keyCode) {
 		case 49: //1
-			console.log(elevator.depth, Math.floor(cursorX), "spid");
+			console.log(elevator.liftHeight, Math.floor(cursorX), "spider");
 			let spider = new Spider(cursorX, -300);
 			addMonster(spider);
 			spider.spawn();
 			break;
 
 		case 51: //2
-			console.log(elevator.depth, Math.floor(cursorX), "glob");
+			console.log(elevator.liftHeight, Math.floor(cursorX), "globe");
 			let globe = new Globe(cursorX, -300);
 			addMonster(globe);
 			globe.spawn();
 			break;
 
 		case 50: //3
-			console.log(elevator.depth, Math.floor(cursorX), "book");
+			console.log(elevator.liftHeight, Math.floor(cursorX), "book");
 			let book = new Book(cursorX, -300);
 			addMonster(book);
 			book.spawn();

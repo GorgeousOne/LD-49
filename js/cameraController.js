@@ -15,7 +15,7 @@ class CameraController {
 	}
 
 	maxX() {
-		return (-width / 2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
+		return (width / 2 + this.focusOffset.x * width) / this.zoom + this.pos.x;
 	}
 
 	minY() {
