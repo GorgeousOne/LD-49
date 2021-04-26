@@ -17,4 +17,8 @@ class Ani {
 		let frameCount = Math.floor((time / this.frameInterval));
 		return this.frames[frameCount % this.frames.length];
 	}
+
+	duration() {
+		return this.frameInterval * this.frames.length;
+	}
 }

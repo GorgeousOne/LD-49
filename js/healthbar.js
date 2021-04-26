@@ -11,7 +11,7 @@ class Healthbar {
 	}
 
 	damage() {
-		console.log("dmg request");
+		return;
 		if (player.dmgCooldown.isRunning()) {
 			return;
 		}

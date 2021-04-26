@@ -26,15 +26,21 @@ let monsters;
 let music;
 let jumpSound;
 let spitSound;
+let bookSound;
+let swordSound;
 
 //load files
 function preload() {
 	music = loadSound("sounds/sad.mp3");
 	jumpSound = loadSound("sounds/jump.mp3");
 	spitSound = loadSound("sounds/spit.mp3");
+	bookSound = loadSound("sounds/book-slap.wav");
+	swordSound = loadSound("sounds/slash2.wav");
 
 	textureHandler = new TextureHandler();
 	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
+	textureHandler.loadAni("kid-hit", "textures/kid", "kid-hit");
+
 	textureHandler.loadImage("heart", "textures/heart.png");
 	textureHandler.loadImage("wall", "textures/wall.png");
 	textureHandler.loadImage("backwall", "textures/backwall.png");
@@ -46,8 +52,10 @@ function preload() {
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
 	textureHandler.loadImage("cobweb", "textures/cobweb.png");
+
 }
 
+let elevator;
 function setup() {
 	createCanvas(windowWidth, windowHeight, P2D);
 	noSmooth();
@@ -72,7 +80,7 @@ function setup() {
 
 	levels = [];
 	levels.push(new Entrance());
-	levels.push(new Elevator(music));
+	levels.push(elevator = new Elevator(music));
 
 	currentLevel = 1;
 	levels[currentLevel].start();
@@ -134,7 +142,8 @@ function render() {
 	}
 
 	fill(255);
-	// text(round(camera.minX()) + "," + round(camera.minY()), camera.minX(), camera.minY() + 10);
+	let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
+	text(round(cursorX), camera.minX(), camera.minY() + 10);
 }
 
 function resetLevel() {
@@ -145,6 +154,7 @@ function resetLevel() {
 	}
 	monsters = [];
 }
+
 function nextLevel() {
 	levels[currentLevel].end();
 	currentLevel++;
@@ -167,22 +177,27 @@ function movePlayer() {
 }
 
 function keyTyped() {
+	let cursorX = (mouseX - width / 2 + camera.focusOffset.x * width) / camera.zoom + camera.pos.x;
 	switch (keyCode) {
-		case 32: //spacebar
+		case 49: //1
+			console.log(elevator.depth, cursorX, "spid");
 			let spider = new Spider();
 			addMonster(spider);
-			spider.spawn(player.pos.x, -300);
-			break;
-		case 66: //b
-			let globe = new Globe();
-			addMonster(globe);
-			globe.spawn(player.pos.x, -300);
+			spider.spawn(cursorX, -300);
 			break;
 
-		case 78: //n
+		case 51: //2
+			console.log(elevator.depth, cursorX, "glob");
+			let globe = new Globe();
+			addMonster(globe);
+			globe.spawn(cursorX, -300);
+			break;
+
+		case 50: //3
+			console.log(elevator.depth, cursorX, "book");
 			let book = new Book();
 			addMonster(book);
-			book.spawn(player.pos.x, -300);
+			book.spawn(cursorX, -300);
 			break;
 
 		case 81: //q
@@ -197,6 +212,7 @@ function keyTyped() {
 function mousePressed() {
 	player.attack();
 }
+
 // 	let isFull = fullscreen();
 // 	fullscreen(!isFull);
 // }

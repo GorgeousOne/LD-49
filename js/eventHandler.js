@@ -64,8 +64,9 @@ class EventHandler {
 			return;
 		}
 		lifebar.damage();
-		console.log(c1.constructor.name + " damage");
+
 		if (c1 instanceof Book) {
+			bookSound.play();
 			c1.velocity.x = 3;
 		}
 	}

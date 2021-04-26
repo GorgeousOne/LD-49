@@ -16,6 +16,9 @@ class Elevator extends Level {
 			player.setPos(0, -player.h());
 		}).setPos(-500, 500);
 		this.addCollidable(fallTrigger);
+
+		this.depth = 0;
+
 	}
 
 	_createBackground() {
@@ -128,5 +131,6 @@ class Elevator extends Level {
 				shelf.translate(0, this.wallCount * this.wallHeight);
 			}
 		}
+		this.depth -= this.lift.speed;
 	}
 }

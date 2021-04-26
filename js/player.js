@@ -1,10 +1,11 @@
 class Player extends Collidable {
 
-	constructor(walkingAni) {
+	constructor() {
 		super(12, 47, true, true, true);
 		this.isMirrored = false;
 		this.hasJumpedOnce = false;
-		this.walkingAni = walkingAni;
+		this.walkAni = textureHandler.getAni("kid");
+		this.hitAni = textureHandler.getAni("kid-hit");
 
 		this.isWalking = false;
 		this.wasWalking = false;
@@ -13,7 +14,8 @@ class Player extends Collidable {
 
 		this.sword = new Sword(50, this.h());
 		this.facing = 1;
-		this.hitCooldown = new Timer(250);
+		this.hitCooldown = new Timer(300);
+		this.lastHit = null;
 		// physicsHandler.addCollidable(this.sword);
 	}
 
@@ -41,8 +43,9 @@ class Player extends Collidable {
 	attack() {
 		if (!this.hitCooldown.isRunning()) {
 			this.sword.swing(this.hitbox, this.facing);
-			jumpSound.play();
+			swordSound.play();
 			this.hitCooldown.start();
+			this.lastHit = Date.now();
 		}
 	}
 
@@ -87,11 +90,17 @@ class Player extends Collidable {
 		if (this.isMirrored) {
 			scale(-1, 1);
 		}
-		let timeWalked = this.isOnGround && this.isWalking ? Date.now() - this.walkingStart : 0;
-		let currentImg = this.walkingAni.getFrame(timeWalked);
 
-		//dmg blink
+		if (this.lastHit && Date.now() - this.lastHit < this.hitAni.duration()) {
+			translate(10.5, 0);
+			let currentImg = this.hitAni.getFrame(Date.now() - this.lastHit);
+			image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
+			return;
+		}
+
 		if (!this.dmgCooldown.isRunning() || Date.now() % 100 < 50) {
+			let timeWalked = this.isOnGround && this.isWalking ? Date.now() - this.walkingStart : 0;
+			let currentImg = this.walkAni.getFrame(timeWalked);
 			image(currentImg, -currentImg.width / 2, -currentImg.height / 2);
 		}
 		pop();
