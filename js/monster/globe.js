@@ -1,4 +1,3 @@
-
 class Globe extends Drawable {
 
 	constructor(spawnX, spawnY) {

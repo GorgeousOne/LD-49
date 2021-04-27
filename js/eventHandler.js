@@ -18,9 +18,6 @@ class EventHandler {
 		if (collidable2 instanceof Trigger) {
 			collidable2.activate();
 		}
-		// if (collidable1 instanceof Trigger) {
-		// 	collidable2.activate();
-		// }
 
 		for (let listener of this.collisionListeners) {
 			listener.onCollide(collidable1, collidable2);

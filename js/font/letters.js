@@ -87,8 +87,9 @@ Letters.set('$', new LetterExtent(64, 16, 5, 7));
 const LetterImages = new Map();
 
 function loadLetters(img) {
-	for (let [char, extent] of Letters.entries())
+	for (let [char, extent] of Letters.entries()) {
 		LetterImages.set(char, img.get(extent.x, extent.y, extent.w, extent.h))
+	}
 }
 
 function pixelWidth(word, fontSize = 1) {
@@ -96,7 +97,9 @@ function pixelWidth(word, fontSize = 1) {
 
 	for (let i = 0; i < word.length; i++) {
 		//add a pixel space between each letter
-		if (i !== 0) width += 1;
+		if (i !== 0) {
+			width += 1;
+		}
 		width += Letters.get(word.charAt(i)).w;
 	}
 	return width * fontSize;

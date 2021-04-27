@@ -8,7 +8,7 @@ class Entrance extends Level {
 			"\nlibrary?" +
 			"\nThe one from all the way down?" +
 			"\n" +
-			"\n  >SPACE<", -100,-50, 2);
+			"\n  >SPACE<", -100, -50, 2);
 		// addDrawable(this.text);
 		this.grandpa = new Drawable(textureHandler.get("grandpa"));
 	}
@@ -19,7 +19,6 @@ class Entrance extends Level {
 		translate(-200, -50);
 		scale(5);
 		this.grandpa.display();
-		// image(textureHandler.get("grandpa"), 0, 0);
 		pop();
 
 		if (keyIsDown(32)) {

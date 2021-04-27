@@ -6,10 +6,10 @@ class TheEnd extends Level {
 
 		this.texts.push(new PixelText("Aaah! Hehe..." +
 			"\nThank you for bringing me my book." +
-			"\n  >SPACE<", -100,-50, 2));
+			"\n  >SPACE<", -100, -50, 2));
 		this.texts.push(new PixelText("You know, it turned out that I could\n" +
 			"simply google the thing I wanted to know.\n" +
-			"But anyway, thanks for the effort.", -100,-50, 2));
+			"But anyway, thanks for the effort.", -100, -50, 2));
 
 		this.grandpa = new Drawable(textureHandler.get("grandpa-smile"));
 		this.currentText = 0;
@@ -31,7 +31,7 @@ class TheEnd extends Level {
 
 		//60 key downs per second...
 		if (keyIsDown(32)) {
-			this.currentText = constrain(this.currentText + 1, 0, this.texts.length-1);
+			this.currentText = constrain(this.currentText + 1, 0, this.texts.length - 1);
 		}
 	}
 }

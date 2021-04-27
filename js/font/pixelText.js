@@ -1,4 +1,3 @@
-
 class PixelText {
 
 	constructor(content, x, y, fontSize = 1) {

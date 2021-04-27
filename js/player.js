@@ -108,7 +108,7 @@ class Player extends Collidable {
 }
 
 class Sword extends Collidable {
-	constructor(width , height) {
+	constructor(width, height) {
 		super(width, height, true, false, false);
 	}
 

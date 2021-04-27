@@ -1,7 +1,6 @@
 const gravity = 0.3;
 const maxVel = 50;
 
-// const physicsInterval = Math.floor(1000 / 50);
 const friction = 1.4;
 
 class PhysicsHandler {
@@ -46,8 +45,4 @@ class PhysicsHandler {
 		}
 		return objects;
 	}
-
-	// callCollisionEvent(collidable1, collidable2) {
-	// 	collidable2.hitbox.outline = color(0, 0, 255);
-	// }
 }
