@@ -26,6 +26,7 @@ let jumpSound;
 let spitSound;
 let bookSound;
 let globeBonk;
+let successSound;
 
 let swordSound;
 
@@ -43,9 +44,11 @@ function preload() {
 	bookSound = loadSound("sounds/book-slap.wav");
 	swordSound = loadSound("sounds/slash2.wav");
 	globeBonk = loadSound("sounds/globe-bonk.wav");
+	successSound = loadSound("sounds/success.wav");
 
 	textureHandler = new TextureHandler();
 	textureHandler.loadImage("grandpa", "textures/grandpa.png");
+	textureHandler.loadImage("grandpa-smile", "textures/grandpa-smile.png");
 
 	textureHandler.loadAni("kid", "textures/kid", "kid-walk");
 	textureHandler.loadAni("kid-hit", "textures/kid", "kid-hit");
@@ -87,6 +90,7 @@ function setup() {
 	levels = [];
 	levels.push(new Entrance());
 	levels.push(elevator = new Elevator(monsterQueue));
+	levels.push(new TheEnd());
 
 	currentLevel = 0;
 	levels[currentLevel].start();

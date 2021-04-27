@@ -20,7 +20,6 @@ class Elevator extends Level {
 		this.addCollidable(fallTrigger);
 
 		this.checkpointLiftHeight = 0;
-		// this.liftHeight = -3400;
 	}
 
 	_loadMonsters(textFile) {
@@ -185,10 +184,10 @@ class Elevator extends Level {
 		push();
 		fill(255);
 		stroke(255);
-		text(Math.floor(this.liftHeight/10) + "|-600", camera.maxX() -80, camera.minY() + 15);
+		text(Math.floor(this.liftHeight/10) + "|-650", camera.maxX() -80, camera.minY() + 15);
 		pop();
 
-		if (this.liftHeight >= 6000) {
+		if (this.liftHeight <= -6500) {
 			music.stop();
 			nextLevel();
 		}
