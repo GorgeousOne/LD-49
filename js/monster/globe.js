@@ -9,18 +9,19 @@ class Globe extends Drawable {
 	}
 
 	spawn() {
-		this.velocity.set(0, 0);
 		this.setPos(this.spawnPos.x, this.spawnPos.y);
+		this.velocity.set(0, 0);
 		this.facing = -Math.sign(this.pos.x);
 		physicsHandler.addCollidable(this);
 	}
 
 	updateY() {
+		this.velocity.y = constrain(this.velocity.y, -5, 5);
+		super.updateY();
+
 		if (this.pos.y > 400) {
 			removeMonster(this);
 		}
-		this.velocity.y = constrain(this.velocity.y, -5, 5);
-		super.updateY();
 	}
 
 	updateX(friction) {

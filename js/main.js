@@ -39,12 +39,12 @@ function preload() {
 	monsterQueue = loadStrings("js/monster-queue.txt");
 
 	music = loadSound("sounds/sad.mp3");
-	jumpSound = loadSound("sounds/jump.mp3");
-	spitSound = loadSound("sounds/spit.mp3");
+	jumpSound = loadSound("sounds/jump.wav");
+	spitSound = loadSound("sounds/spit.wav");
 	bookSound = loadSound("sounds/book-slap.wav");
 	swordSound = loadSound("sounds/slash2.wav");
 	globeBonk = loadSound("sounds/globe-bonk.wav");
-	successSound = loadSound("sounds/success.wav");
+	successSound = loadSound("sounds/success.mp3");
 
 	textureHandler = new TextureHandler();
 	textureHandler.loadImage("grandpa", "textures/grandpa.png");
@@ -85,7 +85,7 @@ function setup() {
 	player = new Player(textureHandler.getAni("kid"));
 	player.hasGravity = false;
 
-	lifebar = new Healthbar(3);
+	lifebar = new Healthbar(4);
 
 	levels = [];
 	levels.push(new Entrance());
@@ -141,13 +141,12 @@ function render() {
 	background(0);
 	camera.focus();
 
-
 	for (let drawable of drawables) {
 		drawable.display();
 	}
 	levels[currentLevel].update();
 
-	if (currentLevel !== 0) {
+	if (currentLevel === 1) {
 		player.display();
 	}
 
@@ -175,8 +174,8 @@ function nextLevel() {
 	levels[currentLevel].start();
 }
 
-const acceleration = 0.2;
-const maxSpeed = 5;
+const acceleration = 0.15;
+const maxSpeed = 4;
 
 function movePlayer() {
 	if (keyIsDown(65)) { //a

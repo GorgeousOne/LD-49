@@ -19,6 +19,9 @@ class Spider extends Drawable {
 	}
 
 	spawn() {
+		this.setPos(this.spawnPos.x, this.spawnPos.y);
+		this.velocity.set(0, 0);
+
 		this.canCollide = false;
 		this.hasGravity = false;
 		this.texture = this.hang;
@@ -26,10 +29,16 @@ class Spider extends Drawable {
 		this.cobwebTimer.startTime = null;
 		this.cobwebTimer.duration = 500;
 
-		this.setPos(this.spawnPos.x, this.spawnPos.y);
 		this.ropePos = this.pos.copy();
 		this.ropingTimer.start();
 		physicsHandler.addCollidable(this);
+	}
+
+	updateY() {
+		super.updateY();
+		if (this.pos.y > 400) {
+			removeMonster(this);
+		}
 	}
 
 	display() {
