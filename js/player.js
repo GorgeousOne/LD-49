@@ -12,11 +12,10 @@ class Player extends Collidable {
 		this.walkingStart = 0;
 		this.dmgCooldown = new Timer(1500);
 
-		this.sword = new Sword(45, this.h());
+		this.sword = new Sword(50, this.h());
 		this.facing = 1;
 		this.hitCooldown = new Timer(300);
 		this.lastHit = null;
-		// physicsHandler.addCollidable(this.sword);
 	}
 
 	setMirrored(bool) {
@@ -37,7 +36,6 @@ class Player extends Collidable {
 		if (!this.wasWalking) {
 			this.walkingStart = 0;
 		}
-		// this.sword.swing(this.hitbox, this.facing)
 	}
 
 	attack() {
@@ -102,6 +100,9 @@ class Player extends Collidable {
 		}
 		pop();
 
+		if (showDebug && this.lastHit && Date.now() - this.lastHit < this.hitAni.duration()) {
+			this.sword.hitbox.display();
+		}
 		this.wasWalking = this.isWalking;
 		this.isWalking = false;
 	}

@@ -6,6 +6,9 @@ class Globe extends Drawable {
 		this.rotation = 0;
 		this.spawnPos = createVector(spawnX, spawnY);
 		this.wasOnGround = false;
+
+		this.hitbox.size.set(29, 34);
+		this.hitbox.translate(5, 5);
 	}
 
 	spawn() {

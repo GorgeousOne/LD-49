@@ -31,9 +31,9 @@
 -4300 -30 book
 
 -4500 92 globe
--4540 -92 globe
--4700 92 globe
--4740 -92 globe
+-4550 -92 globe
+-4700 -92 globe
+-4750 92 globe
 
 -4850 60 book
 -4900 -60 book

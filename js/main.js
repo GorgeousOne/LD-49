@@ -85,7 +85,7 @@ function setup() {
 	player = new Player(textureHandler.getAni("kid"));
 	player.hasGravity = false;
 
-	lifebar = new Healthbar(4);
+	lifebar = new Healthbar(5);
 
 	levels = [];
 	levels.push(new Entrance());

@@ -8,6 +8,8 @@ class Book extends Drawable {
 		this.rotation = 0;
 		this.spawnPos = createVector(spawnX, spawnY);
 
+		this.hitbox.size.set(21, 19);
+		this.hitbox.translate(4, 3);
 	}
 
 	spawn() {
