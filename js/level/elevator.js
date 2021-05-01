@@ -25,10 +25,20 @@ class Elevator extends Level {
 	_loadMonsters(textFile) {
 		this.checkpointMobs = new Map();
 		console.log(textFile);
+		let level = 0;
 
 		for (let i = 0; i < textFile.length; i++) {
+			let line = textFile[i].trim();
+
+			if (line.startsWith("#")) {
+				continue;
+			}
 			let info = textFile[i].split(' ');
-			let level = parseInt(info[0]);
+
+			if (info.length < 3) {
+				continue
+			}
+			level += parseInt(info[0]);
 			let x = parseInt(info[1]);
 			console.log("added " + info[2]);
 
@@ -184,10 +194,10 @@ class Elevator extends Level {
 		push();
 		fill(255);
 		stroke(255);
-		text(Math.floor(this.liftHeight / 10) + "|-650", camera.maxX() - 80, camera.minY() + 15);
+		text(Math.floor(this.liftHeight / 10) + "|-850", camera.maxX() - 80, camera.minY() + 15);
 		pop();
 
-		if (this.liftHeight <= -6500) {
+		if (this.liftHeight <= -8500) {
 			music.stop();
 			nextLevel();
 		}

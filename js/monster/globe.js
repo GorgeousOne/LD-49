@@ -12,7 +12,7 @@ class Globe extends Drawable {
 	}
 
 	spawn() {
-		this.setPos(this.spawnPos.x, this.spawnPos.y);
+		this.setPos(this.spawnPos.x - this.texture.width/2, this.spawnPos.y);
 		this.velocity.set(0, 0);
 		this.facing = -Math.sign(this.pos.x);
 		physicsHandler.addCollidable(this);

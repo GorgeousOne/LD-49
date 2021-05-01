@@ -1,46 +1,49 @@
-
 -300 -77 spider
--900 61 book
--1200 -100 globe
--1600 73 spider
--1750 2 book
--1850 -68 book
--2120 -69 spider
--2300 92 globe
--2450 -18 book
--2500 86 book
+-600 0 book
+-300 100 globe
 
--2880 -67 spider
--2950 -32 book
--2980 84 spider
--3150 32 book
--3200 0 book
+-500 73 spider
+-150 2 book
+-100 -68 book
 
--3300 92 globe
--3400 -92 globe
--3500 0 book
--3550 -50 book
--3600 50 book
+-300 -69 spider
+-200 92 globe
 
--3601 84 spider
--3650 -84 spider
--3700 0 spider
+-500 -67 spider
+-79 -32 book
+-30 84 spider
+-40 32 book
 
--4150 -92 globe
--4251 30 book
--4300 -30 book
+-500 92 globe
+-50 -92 globe
 
--4500 92 globe
--4550 -92 globe
--4700 -92 globe
--4750 92 globe
+-300 84 spider
+-150 -84 spider
+-150 0 spider
 
--4850 60 book
--4900 -60 book
--5000 -84 spider
--5050 84 spider
--5250 -32 spider
--5350 32 spider
+-550 -92 globe
+-100 30 book
+-25 -30 book
+
+-300 92 globe
+-50 -92 globe
+-200 -92 globe
+-50 92 globe
+
+-300 75 book
+-50 25 book
+-50 -25 book
+-50 -75 book
+-100 -90 book
+-50 0 book
+-50 -45 book
+-50 45 book
+-50 90 book
+
+-300 -84 spider
+-50 84 spider
+-200 -32 spider
+-100 32 spider
 
 
 
