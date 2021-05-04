@@ -56,6 +56,7 @@ function preload() {
 	textureHandler.loadImage("heart", "textures/heart.png");
 	textureHandler.loadImage("wall", "textures/wall.png");
 	textureHandler.loadImage("backwall", "textures/backwall.png");
+	textureHandler.loadImage("controls", "textures/controls.png");
 	textureHandler.loadImage("shelf", "textures/shelf.png");
 
 	textureHandler.loadImage("platform", "textures/platform.png");

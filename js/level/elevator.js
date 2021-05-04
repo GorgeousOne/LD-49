@@ -5,6 +5,12 @@ class Elevator extends Level {
 
 		this._loadMonsters(mobQueue);
 		this._createBackground();
+
+		this.controlsImg = textureHandler.get("controls");
+		let controls = new Drawable(this.controlsImg, true, false);
+		controls.setPos(-150, -50	);
+		this.addCollidable(controls);
+
 		this._createShelves();
 		this._createWalls();
 
@@ -136,7 +142,6 @@ class Elevator extends Level {
 				camera.followTargetY = true;
 				camera.followTargetX = false;
 				camera.setOffset(0, -0.33);
-				camera.setPos(0, 0);
 			} else if (collidable.texture === this.wallImg) {
 				this.walls.push(collidable);
 			} else if (collidable.texture === this.backImg) {
@@ -145,6 +150,8 @@ class Elevator extends Level {
 			} else if (collidable.texture === this.shelfImg) {
 				this.shelves.push(collidable);
 				physicsHandler.removeCollidable(collidable);
+			}else if (collidable.texture === this.controlsImg) {
+				this.keys = collidable;
 			}
 		}
 	}
@@ -170,6 +177,8 @@ class Elevator extends Level {
 			this.musicLoop.start();
 			music.play();
 		}
+
+		this.keys.translate(0, -this.lift.speed * this.shelfSpeed);
 
 		for (let wall of this.walls) {
 			wall.translate(0, -this.lift.speed);

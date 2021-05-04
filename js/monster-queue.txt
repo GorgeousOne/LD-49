@@ -6,7 +6,7 @@
 -150 2 book
 -100 -68 book
 
--300 -69 spider
+-500 -69 spider
 -200 92 globe
 
 -500 -67 spider
