@@ -12,7 +12,7 @@ class Spider extends Drawable {
 		this.ropePos = null;
 
 		this.ropingTimer = new Timer(2000);
-		this.cobwebTimer = new Timer(500);
+		this.cobwebTimer = new Timer(1000);
 
 		this.isMonster = true;
 		this.spawnPos = createVector(spawnX, spawnY);
@@ -27,7 +27,7 @@ class Spider extends Drawable {
 		this.texture = this.hang;
 		//stops timer from being over after resawn
 		this.cobwebTimer.startTime = null;
-		this.cobwebTimer.duration = 500;
+		this.cobwebTimer.duration = 1000;
 
 		this.ropePos = this.pos.copy();
 		this.ropingTimer.start();
