@@ -5,13 +5,13 @@ class Elevator extends Level {
 
 		this._loadMonsters(mobQueue);
 		this._createBackground();
+		this._createShelves();
 
 		this.controlsImg = textureHandler.get("controls");
 		let controls = new Drawable(this.controlsImg, true, false);
 		controls.setPos(-150, -50	);
 		this.addCollidable(controls);
 
-		this._createShelves();
 		this._createWalls();
 
 		this.lift = new Lift(2);
