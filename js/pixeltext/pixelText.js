@@ -1,6 +1,7 @@
-class PixelText {
+class PixelText extends Text {
 
 	constructor(content, x, y, fontSize = 1) {
+		super();
 		this.pos = createVector(x, y);
 		this.paragraphs = content.split("\n");
 		this.lineSpacing = 2;

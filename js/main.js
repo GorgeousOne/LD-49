@@ -1,7 +1,7 @@
-Array.prototype.removeIf = function (callback) {
+Array.prototype.removeIf = function (functor) {
 	let i = this.length;
 	while (i--) {
-		if (callback(this[i], i)) {
+		if (functor(this[i], i)) {
 			this.splice(i, 1);
 		}
 	}
@@ -32,6 +32,9 @@ let swordSound;
 
 let monsterQueue;
 let showDebug = false;
+
+let updateHandler;
+let inputHandler;
 
 //load files
 function preload() {
@@ -65,6 +68,11 @@ function preload() {
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
 	textureHandler.loadImage("cobweb", "textures/cobweb.png");
+
+	updateHandler = new UpdateHandler(20);
+	updateHandler.addListener(new PlayerMoveHandler(player));
+
+	inputHandler = new InputHandler();
 
 }
 
@@ -133,7 +141,8 @@ function removeMonster(monster) {
 }
 
 function draw() {
-	movePlayer();
+
+	// movePlayer();
 	physicsHandler.applyPhysics();
 	render();
 }
@@ -202,10 +211,11 @@ function keyTyped() {
 }
 
 function keyPressed() {
-	if (keyCode === 27) { //escape
-		let isFull = fullscreen();
-		fullscreen(!isFull);
-	}
+	inputHandler.callKeyPress(keyCode);
+	// if (keyCode === 27) { //escape
+	// 	let isFull = fullscreen();
+	// 	fullscreen(!isFull);
+	// }
 }
 
 function mousePressed() {
