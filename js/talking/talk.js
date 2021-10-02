@@ -9,6 +9,7 @@ class Talk {
 
 	addText(text) {
 		this._texts.push(text);
+		return this;
 	}
 
 	start() {

@@ -2,27 +2,31 @@ class Entrance extends Level {
 
 	constructor() {
 		super(createVector(0, 0));
-		this.text = new PixelText("Young boy," +
+		this.grandpaSpeech = new Talk().addText(new PixelText("Young boy," +
 			"\nwould you be so kind to" +
 			"\nbring me a book from the" +
 			"\nlibrary?" +
 			"\nThe one from all the way down?" +
 			"\n" +
-			"\n  >SPACE<", -100, -50, 2);
-		// addDrawable(this.text);
+			"\n  >SPACE<", -100, -50, 2));
+		// // addDrawable(this.text);
 		this.grandpa = new Drawable(textureHandler.get("grandpa"));
 	}
 
+	start() {
+		talkingHandler.setTalk(this.grandpaSpeech, nextLevel);
+	}
+
 	update() {
-		this.text.display();
+		// this.text.display();
 		push();
 		translate(-200, -50);
 		scale(5);
 		this.grandpa.display();
 		pop();
 
-		if (keyIsDown(32)) {
-			nextLevel();
-		}
+		// if (keyIsDown(32)) {
+		// 	nextLevel();
+		// }
 	}
 }

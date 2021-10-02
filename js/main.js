@@ -35,10 +35,11 @@ let showDebug = false;
 
 let updateHandler;
 let inputHandler;
+let talkingHandler;
 
 //load files
 function preload() {
-	loadImage('js/font/pixel-font.min.png', img => loadLetters(img));
+	loadImage('js/pixeltext/pixel-font.min.png', img => loadLetters(img));
 	monsterQueue = loadStrings("js/monster-queue.txt");
 
 	music = loadSound("sounds/sad.mp3");
@@ -68,12 +69,6 @@ function preload() {
 	textureHandler.loadImage("spider-hang", "textures/spider-hang.png");
 	textureHandler.loadImage("spider-walk", "textures/spider.png");
 	textureHandler.loadImage("cobweb", "textures/cobweb.png");
-
-	updateHandler = new UpdateHandler(20);
-	updateHandler.addListener(new PlayerMoveHandler(player));
-
-	inputHandler = new InputHandler();
-
 }
 
 let elevator;
@@ -88,7 +83,6 @@ function setup() {
 	camera = new CameraController();
 	windowResized();
 
-	physicsHandler = new PhysicsHandler();
 	eventHandler = new EventHandler();
 
 	player = new Player(textureHandler.getAni("kid"));
@@ -100,6 +94,20 @@ function setup() {
 	levels.push(new Entrance());
 	levels.push(elevator = new Elevator(monsterQueue));
 	levels.push(new TheEnd());
+
+	//---
+
+	updateHandler = new UpdateHandler(20);
+	inputHandler = new InputHandler();
+	physicsHandler = new PhysicsHandler();
+	talkingHandler = new TalkingHandler();
+	let playerController = new PlayerController(player);
+
+	updateHandler.addListener(playerController);
+	updateHandler.addListener(physicsHandler);
+
+	inputHandler.addListener(talkingHandler);
+	inputHandler.addListener(playerController);
 
 	currentLevel = 0;
 	levels[currentLevel].start();
@@ -141,9 +149,8 @@ function removeMonster(monster) {
 }
 
 function draw() {
-
-	// movePlayer();
-	physicsHandler.applyPhysics();
+	updateHandler.callFixedUpdates();
+	updateHandler.callRedraw();
 	render();
 }
 
@@ -184,46 +191,41 @@ function nextLevel() {
 	levels[currentLevel].start();
 }
 
-const acceleration = 0.15;
-const maxSpeed = 4;
+// function movePlayer() {
+// 	if (keyIsDown(65)) { //a
+// 		player.walk(-acceleration, maxSpeed);
+// 	}
+// 	if (keyIsDown(68)) { //d
+// 		player.walk(acceleration, maxSpeed);
+// 	}
+// 	if (keyIsDown(87)) { //w
+// 		player.jump(110);
+// 	}
+// }
 
-function movePlayer() {
-	if (keyIsDown(65)) { //a
-		player.walk(-acceleration, maxSpeed);
-	}
-	if (keyIsDown(68)) { //d
-		player.walk(acceleration, maxSpeed);
-	}
-	if (keyIsDown(87)) { //w
-		player.jump(110);
-	}
-}
-
-function keyTyped() {
-	switch (keyCode) {
-		case 81: //q
-			showDebug = !showDebug;
-			break;
-		case 82: //r
-			resetLevel();
-			break;
-	}
-}
+// function keyTyped() {
+// 	switch (keyCode) {
+// 		case 81: //q
+// 			showDebug = !showDebug;
+// 			break;
+// 		case 82: //r
+// 			resetLevel();
+// 			break;
+// 	}
+// }
 
 function keyPressed() {
 	inputHandler.callKeyPress(keyCode);
-	// if (keyCode === 27) { //escape
-	// 	let isFull = fullscreen();
-	// 	fullscreen(!isFull);
-	// }
-}
-
-function mousePressed() {
-	player.attack();
 }
 
 function keyReleased() {
-	if (keyCode === 87) { //w
-		player.hasJumpedOnce = false;
-	}
+	inputHandler.callKeyRelease(keyCode);
+}
+
+function mousePressed() {
+	inputHandler.callMousePress(mouseButton);
+}
+
+function mouseReleased() {
+	inputHandler.callMouseRelease(mouseButton);
 }

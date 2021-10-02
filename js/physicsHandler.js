@@ -1,11 +1,12 @@
 const gravity = 0.3;
 const maxVel = 50;
 
-const friction = 1.4;
+const friction = 1.5;
 
-class PhysicsHandler {
+class PhysicsHandler extends UpdateListener {
 
 	constructor() {
+		super();
 		this.collidables = [];
 	}
 
@@ -20,6 +21,10 @@ class PhysicsHandler {
 			let i = this.collidables.indexOf(collidable);
 			this.collidables.splice(i, 1);
 		}
+	}
+
+	onFixedUpdate(dTime) {
+		this.applyPhysics();
 	}
 
 	applyPhysics() {

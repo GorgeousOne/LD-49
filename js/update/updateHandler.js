@@ -20,16 +20,25 @@ class UpdateHandler {
 	callRedraw() {
 		let time = Date.now();
 		let dTime = time - this._lastDraw;
-		this._updateListeners.forEach(listener => listener.onRedraw(dTime));
+
+		for (let listener of this._updateListeners) {
+			if (typeof listener.onRedraw === 'function') {
+				listener.onRedraw(dTime);
+			}
+		}
 		this._lastDraw = time;
 	}
 
 	callFixedUpdates() {
 		let time = Date.now();
-		this._accumulator += this._lastFixedUpdate - time;
+		this._accumulator += time - this._lastFixedUpdate;
 
 		while (this._accumulator > this._fixedUpdateInterval) {
-			this._updateListeners.forEach(listener => listener.onFixedUpdate(this._fixedUpdateInterval));
+			for (let listener of this._updateListeners) {
+				if (typeof listener.onRedraw === 'function') {
+					listener.onFixedUpdate(this._fixedUpdateInterval);
+				}
+			}
 			this._accumulator -= this._fixedUpdateInterval;
 		}
 		this._lastFixedUpdate = time;

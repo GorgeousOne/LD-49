@@ -26,7 +26,7 @@ class Player extends Collidable {
 		this.isWalking = true;
 		this.facing = Math.sign(acceleration);
 
-		//accelerate faster when turning around
+		//accelerate faster when turning around?
 		if (this.facing !== Math.sign(this.velocity.x)) {
 			acceleration *= 3;
 		}
@@ -48,6 +48,7 @@ class Player extends Collidable {
 	}
 
 	updateX(friction, ariFriction) {
+		console.log(this.isWalking);
 		super.updateX(this.isWalking ? 1 : friction);
 	}
 
@@ -69,7 +70,6 @@ class Player extends Collidable {
 		if (!this.isOnGround || this.hasJumpedOnce) {
 			return;
 		}
-
 		let newVelY = 0;
 
 		while (height > 0) {
@@ -117,6 +117,7 @@ class Sword extends Collidable {
 		let x = dir === 1 ? hitbox.getBoundX(dir) - hitbox.size.x : hitbox.getBoundX(dir) + hitbox.size.x - this.w();
 		let y = hitbox.minY();
 		this.setPos(x, y);
+
 		for (let thing of physicsHandler.getCollisions(this)) {
 			eventHandler.callCollisionEvent(this, thing);
 		}

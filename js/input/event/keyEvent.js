@@ -1,5 +1,5 @@
 
-class keyboardEvent extends InputEvent {
+class KeyEvent extends InputEvent {
 
 	constructor(key) {
 		super();
