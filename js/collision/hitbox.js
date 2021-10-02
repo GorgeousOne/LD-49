@@ -1,4 +1,8 @@
-class Hitbox {
+class HitBox {
+	
+}
+
+class Rect {
 
 	constructor(width, height) {
 		this.pos = createVector();

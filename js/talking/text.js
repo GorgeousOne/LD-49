@@ -3,5 +3,5 @@ class Text {
 
 	constructor() {}
 
-	display();
+	display() {}
 }

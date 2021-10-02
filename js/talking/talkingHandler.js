@@ -1,8 +1,9 @@
 
 class TalkingHandler extends InputListener {
 
-	constructor() {
+	constructor(displayHandler) {
 		super();
+		this._displayHandler = displayHandler;
 		this.inputKeys = [p5.ENTER, 32]
 		this._activeTalk = undefined;
 		this._talkCallback = undefined;
@@ -12,6 +13,7 @@ class TalkingHandler extends InputListener {
 		this._activeTalk = talk;
 		this._talkCallback = callback;
 		this._activeTalk.start();
+		this._displayHandler.addDrawable(talk);
 	}
 
 	onKeyPress(keyEvent) {
@@ -25,6 +27,7 @@ class TalkingHandler extends InputListener {
 				if (undefined !== this._talkCallback) {
 					this._talkCallback();
 				}
+				this._displayHandler.removeDrawable(this._activeTalk);
 				this._activeTalk = undefined;
 			}
 		}

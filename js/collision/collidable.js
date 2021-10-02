@@ -1,7 +1,12 @@
+
+class Collidable2 {
+
+}
+
 class Collidable {
 
 	constructor(width, height, isPassable = false, canCollide = true, hasGravity = false) {
-		this.hitbox = new Hitbox(width, height);
+		this.hitbox = new Rect(width, height);
 		this.pos = createVector();
 		this.velocity = createVector();
 		this.intersectings = [];
